@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NYC Insider List
 
-## Getting Started
+Paid subscription events discovery site for NYC. Browse events for free, pay $2.99/mo to get them synced to your Google Calendar.
 
-First, run the development server:
+## Architecture
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Browser --> Next.js (Vercel) --> Supabase (events DB)
+                |                       ^
+                +--> Stripe (payments)   |
+                |                       |
+Scraper --> events_raw.json --> sync script --> Supabase
+                                        |
+n8n polls calendar_actions --> Google Calendar API (grant/revoke ACL)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js 16 (App Router), Tailwind CSS
+- **Database**: Supabase (Postgres + RLS)
+- **Payments**: Stripe Checkout + Webhooks
+- **Hosting**: Vercel
+- **Calendar**: Google Calendar API (ACL grants via n8n)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Local Development
 
-## Learn More
+```bash
+npm install
+cp .env.local.example .env.local
+# Fill in env vars
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Data Pipeline
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Upload scraped events to Supabase
+python scripts/upload_events.py ../nyc-events-calendar/data/events_raw.json
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Or use the Node.js version
+npx tsx scripts/sync_events.ts ../nyc-events-calendar/data/events_raw.json
+```
 
-## Deploy on Vercel
+## Supabase Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create a project at https://supabase.com
+2. Run `supabase/schema.sql` in the SQL Editor
+3. Copy the URL, anon key, and service role key to `.env.local`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Stripe Setup
+
+1. Create a product "NYC Insider List" with a $2.99/mo recurring price
+2. Copy the price ID to `STRIPE_PRICE_ID`
+3. Set up webhook endpoint: `https://nycinsiderlist.com/api/webhooks/stripe`
+4. Listen for: `checkout.session.completed`, `customer.subscription.deleted`, `invoice.payment_failed`, `customer.subscription.updated`
+5. Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`
+
+## Deploy to Vercel
+
+1. Push to GitHub
+2. Import in Vercel
+3. Add all env vars from `.env.local`
+4. Deploy
+
+## DNS (Namecheap)
+
+Add these records:
+- `A` record: `@` -> `76.76.21.21`
+- `CNAME` record: `www` -> `cname.vercel-dns.com`
+- Vercel will provide a TXT record for domain verification
+
+## Featured Events
+
+To mark events as featured, update the `is_featured` column in Supabase:
+
+```sql
+UPDATE events SET is_featured = true WHERE title ILIKE '%Gov Ball%';
+```
