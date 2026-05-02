@@ -1,22 +1,12 @@
 import { getCategoryMeta } from "@/lib/constants";
 import type { Event } from "@/lib/types";
-import { format, parseISO, differenceInCalendarDays, isToday, isTomorrow } from "date-fns";
-
-function dayLabel(dateStr: string): string {
-  const d = parseISO(dateStr);
-  if (isToday(d)) return "Today";
-  if (isTomorrow(d)) return "Tomorrow";
-  const diff = differenceInCalendarDays(d, new Date());
-  if (diff < 0) return "Past";
-  if (diff <= 14) return `In ${diff} days`;
-  return "";
-}
+import { format, parseISO, differenceInCalendarDays } from "date-fns";
 
 export default function EventCard({ event }: { event: Event }) {
   const meta = getCategoryMeta(event.category);
   const isPast = differenceInCalendarDays(parseISO(event.date), new Date()) < 0;
-  const label = dayLabel(event.date);
-  const isSoldOut = event.title.toLowerCase().includes("sold out") ||
+  const isSoldOut =
+    event.title.toLowerCase().includes("sold out") ||
     (event.description ?? "").toLowerCase().includes("sold out");
 
   return (
@@ -24,62 +14,62 @@ export default function EventCard({ event }: { event: Event }) {
       href={event.url ?? "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex overflow-hidden rounded-xl border border-white/[0.06] bg-[#0f1629] transition hover:-translate-y-0.5 hover:border-white/[0.12] hover:shadow-lg hover:shadow-black/20 ${
-        isPast ? "opacity-40" : ""
+      className={`group flex overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] transition hover:-translate-y-0.5 hover:border-white/[0.12] ${
+        isPast || isSoldOut ? "opacity-50" : ""
       }`}
     >
-      {/* Category left border */}
-      <div className="w-1 shrink-0" style={{ backgroundColor: meta.color }} />
+      {/* Category accent border */}
+      <div
+        className="w-[2px] shrink-0"
+        style={{ backgroundColor: meta.color, opacity: 0.4 }}
+      />
 
-      <div className="flex flex-1 flex-col p-4">
-        {/* Top row: badges */}
-        <div className="mb-2 flex flex-wrap items-center gap-1.5">
-          <span
-            className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
-            style={{ backgroundColor: `${meta.color}18`, color: meta.color }}
-          >
-            {meta.emoji} {event.category}
-          </span>
-          {event.is_free && (
-            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-              Free
-            </span>
-          )}
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-[#52525b]">
+          {event.category}
+        </p>
+
+        <h3 className="mt-1.5 text-[15px] font-semibold leading-snug text-[#fafafa]">
+          {event.title}
           {isSoldOut && (
-            <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white/30">
+            <span className="ml-2 text-[11px] font-medium uppercase text-[#3f3f46]">
               Sold Out
             </span>
           )}
-          {event.is_featured && (
-            <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-400">
-              Featured
-            </span>
-          )}
-          {label && !isPast && (
-            <span className="ml-auto text-[10px] font-medium text-white/30">
-              {label}
-            </span>
-          )}
-        </div>
-
-        {/* Title */}
-        <h3 className="text-sm font-semibold leading-snug text-white group-hover:text-blue-300 sm:text-base">
-          {event.title}
         </h3>
 
-        {/* Description (cards view only — truncated) */}
         {event.description && (
-          <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-white/30">
+          <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-[#52525b]">
             {event.description}
           </p>
         )}
 
-        {/* Meta row */}
-        <div className="mt-auto flex flex-wrap gap-x-3 gap-y-0.5 pt-3 text-xs text-white/40">
+        <div className="mt-auto flex flex-wrap items-center gap-x-1.5 pt-4 text-[12px] text-[#3f3f46]">
           <span>{format(parseISO(event.date), "EEE, MMM d")}</span>
-          {event.time && <span>{event.time}</span>}
-          {event.venue && <span className="truncate">{event.venue}</span>}
-          {event.cost && !event.is_free && <span>{event.cost}</span>}
+          {event.time && (
+            <>
+              <span>&middot;</span>
+              <span>{event.time}</span>
+            </>
+          )}
+          {event.venue && (
+            <>
+              <span>&middot;</span>
+              <span className="truncate">{event.venue}</span>
+            </>
+          )}
+          {event.is_free && (
+            <>
+              <span>&middot;</span>
+              <span className="text-emerald-500">Free</span>
+            </>
+          )}
+          {event.cost && !event.is_free && (
+            <>
+              <span>&middot;</span>
+              <span>{event.cost}</span>
+            </>
+          )}
         </div>
       </div>
     </a>

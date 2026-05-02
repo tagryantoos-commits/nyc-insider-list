@@ -2,7 +2,6 @@
 
 import { CATEGORIES } from "@/lib/constants";
 import type { TimeFilter, ViewMode } from "@/lib/types";
-import { LayoutGrid, List } from "lucide-react";
 
 interface Props {
   timeFilter: TimeFilter;
@@ -18,7 +17,7 @@ interface Props {
 }
 
 const TIME_TABS: { key: TimeFilter; label: string }[] = [
-  { key: "all", label: "All Time" },
+  { key: "all", label: "All" },
   { key: "upcoming", label: "Upcoming" },
   { key: "week", label: "This Week" },
   { key: "month", label: "This Month" },
@@ -29,27 +28,59 @@ export default function FilterBar({
   onTimeFilterChange,
   activeCategory,
   onCategoryChange,
-  viewMode,
-  onViewModeChange,
   freeOnly,
   onFreeOnlyChange,
-  categoryCounts,
   totalCount,
 }: Props) {
   return (
-    <div className="sticky top-[53px] z-40 border-b border-white/[0.06] bg-[#080b16]/90 backdrop-blur-xl">
-      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-        {/* Time tabs + view toggle */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex gap-1 overflow-x-auto">
+    <div className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#09090b]/95 backdrop-blur-sm">
+      <div className="mx-auto max-w-6xl px-5">
+        {/* Category tabs */}
+        <div className="flex gap-0 overflow-x-auto border-b border-white/[0.04] pt-2">
+          <button
+            onClick={() => onCategoryChange(null)}
+            className={`relative whitespace-nowrap px-3 pb-2.5 text-[13px] font-medium transition ${
+              activeCategory === null
+                ? "text-[#fafafa]"
+                : "text-[#52525b] hover:text-[#71717a]"
+            }`}
+          >
+            All
+            {activeCategory === null && (
+              <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#fafafa]" />
+            )}
+          </button>
+          {CATEGORIES.filter((c) => c.key !== "Other").map((cat) => (
+            <button
+              key={cat.key}
+              onClick={() =>
+                onCategoryChange(activeCategory === cat.key ? null : cat.key)
+              }
+              className={`relative whitespace-nowrap px-3 pb-2.5 text-[13px] font-medium transition ${
+                activeCategory === cat.key
+                  ? "text-[#fafafa]"
+                  : "text-[#52525b] hover:text-[#71717a]"
+              }`}
+            >
+              {cat.label}
+              {activeCategory === cat.key && (
+                <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#fafafa]" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Controls row */}
+        <div className="flex items-center justify-between gap-4 py-2.5">
+          <div className="flex items-center gap-1">
             {TIME_TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => onTimeFilterChange(tab.key)}
-                className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+                className={`rounded px-2.5 py-1 text-[12px] font-medium transition ${
                   timeFilter === tab.key
-                    ? "bg-white/10 text-white"
-                    : "text-white/40 hover:text-white/70"
+                    ? "bg-white/[0.06] text-[#fafafa]"
+                    : "text-[#52525b] hover:text-[#71717a]"
                 }`}
               >
                 {tab.label}
@@ -57,73 +88,20 @@ export default function FilterBar({
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
-            <label className="hidden items-center gap-1.5 text-xs text-white/40 sm:flex">
+          <div className="flex items-center gap-4">
+            <label className="flex cursor-pointer items-center gap-1.5 text-[12px] text-[#52525b]">
               <input
                 type="checkbox"
                 checked={freeOnly}
                 onChange={(e) => onFreeOnlyChange(e.target.checked)}
-                className="rounded border-white/20 bg-white/5 accent-emerald-500"
+                className="accent-emerald-500"
               />
               Free only
             </label>
-
-            <span className="hidden text-xs text-white/30 sm:inline">
+            <span className="text-[12px] text-[#3f3f46]">
               {totalCount} results
             </span>
-
-            <div className="flex rounded-lg border border-white/[0.08] p-0.5">
-              <button
-                onClick={() => onViewModeChange("cards")}
-                className={`rounded-md p-1.5 transition ${
-                  viewMode === "cards" ? "bg-white/10 text-white" : "text-white/30"
-                }`}
-              >
-                <LayoutGrid className="h-3.5 w-3.5" />
-              </button>
-              <button
-                onClick={() => onViewModeChange("list")}
-                className={`rounded-md p-1.5 transition ${
-                  viewMode === "list" ? "bg-white/10 text-white" : "text-white/30"
-                }`}
-              >
-                <List className="h-3.5 w-3.5" />
-              </button>
-            </div>
           </div>
-        </div>
-
-        {/* Category pills */}
-        <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
-          <button
-            onClick={() => onCategoryChange(null)}
-            className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition ${
-              activeCategory === null
-                ? "bg-white/10 text-white"
-                : "text-white/40 hover:text-white/60"
-            }`}
-          >
-            All ({totalCount})
-          </button>
-          {CATEGORIES.map((cat) => {
-            const count = categoryCounts[cat.key] ?? 0;
-            if (count === 0) return null;
-            const isActive = activeCategory === cat.key;
-            return (
-              <button
-                key={cat.key}
-                onClick={() => onCategoryChange(isActive ? null : cat.key)}
-                className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition ${
-                  isActive
-                    ? "text-white"
-                    : "text-white/40 hover:text-white/60"
-                }`}
-                style={isActive ? { backgroundColor: `${cat.color}25`, color: cat.color } : {}}
-              >
-                {cat.emoji} {cat.label} ({count})
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>

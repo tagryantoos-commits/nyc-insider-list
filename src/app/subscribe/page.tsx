@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CATEGORIES, PRICE_MONTHLY, SITE_NAME } from "@/lib/constants";
-import { Calendar, Check, ArrowLeft } from "lucide-react";
+import { PRICE_MONTHLY } from "@/lib/constants";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function SubscribePage() {
@@ -38,69 +38,46 @@ export default function SubscribePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="flex min-h-screen flex-col items-center justify-center px-5">
+      <div className="w-full max-w-sm">
         <Link
           href="/"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-white/40 transition hover:text-white/60"
+          className="mb-8 inline-flex items-center gap-1 text-[13px] text-[#52525b] transition hover:text-[#71717a]"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to events
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back
         </Link>
 
-        <div className="rounded-2xl border border-white/[0.08] bg-[#0f1629] p-8">
-          <div className="text-center">
-            <Calendar className="mx-auto mb-4 h-10 w-10 text-blue-400" />
-            <h1 className="font-[family-name:var(--font-fraunces)] text-2xl font-bold">
-              Subscribe to {SITE_NAME}
-            </h1>
-            <p className="mt-2 text-sm text-white/40">
-              {PRICE_MONTHLY}/month &middot; Cancel anytime
-            </p>
-          </div>
+        <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-8">
+          <h1 className="text-xl font-semibold text-[#fafafa]">Subscribe</h1>
+          <p className="mt-1 text-[13px] text-[#52525b]">
+            {PRICE_MONTHLY}/month. 9 Google Calendar feeds, auto-updated weekly.
+            Cancel anytime.
+          </p>
 
-          <div className="mt-6 space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-white/40">
-              What you get
-            </h3>
-            {[
-              "9 Google Calendar feeds, auto-updated weekly",
-              "Toggle categories on and off",
-              "Rooftop, Broadway, Concerts, Museums, and more",
-              "Never miss an event",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-2 text-sm text-white/60">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-
-          <form onSubmit={handleSubmit} className="mt-8 space-y-3">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-3">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your Google account email"
-              className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30"
+              className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-[14px] text-[#fafafa] placeholder-[#52525b] outline-none transition focus:border-white/[0.15]"
             />
 
-            {error && (
-              <p className="text-xs text-red-400">{error}</p>
-            )}
+            {error && <p className="text-[13px] text-red-400">{error}</p>}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-blue-600 py-3 text-sm font-semibold transition hover:bg-blue-500 disabled:opacity-50"
+              className="w-full rounded-lg border border-white/[0.15] py-2.5 text-[14px] font-medium text-[#fafafa] transition hover:bg-white hover:text-[#09090b] disabled:opacity-40"
             >
-              {loading ? "Redirecting to checkout..." : `Subscribe — ${PRICE_MONTHLY}/mo`}
+              {loading ? "Redirecting..." : `Subscribe -- ${PRICE_MONTHLY}/mo`}
             </button>
           </form>
 
-          <p className="mt-4 text-center text-[11px] text-white/20">
-            Powered by Stripe. Your payment info is never stored on our servers.
+          <p className="mt-4 text-center text-[11px] text-[#3f3f46]">
+            Powered by Stripe. Payment info never stored on our servers.
           </p>
         </div>
       </div>

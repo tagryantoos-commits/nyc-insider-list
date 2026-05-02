@@ -1,21 +1,24 @@
 import Link from "next/link";
-import { SITE_NAME, PRICE_MONTHLY } from "@/lib/constants";
+import { PRICE_MONTHLY } from "@/lib/constants";
 
 export default function Navbar({ eventCount }: { eventCount: number }) {
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#080b16]/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-        <Link href="/" className="font-[family-name:var(--font-fraunces)] text-xl font-bold tracking-tight">
-          {SITE_NAME}
+    <nav className="border-b border-white/[0.06]">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <Link
+          href="/"
+          className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#fafafa]"
+        >
+          NYC Insider List
         </Link>
 
-        <div className="flex items-center gap-4">
-          <span className="hidden text-sm text-white/40 sm:inline">
+        <div className="flex items-center gap-5">
+          <span className="hidden text-[13px] text-[#52525b] sm:inline">
             {eventCount.toLocaleString()} events
           </span>
           <Link
             href="/subscribe"
-            className="rounded-full bg-blue-600 px-4 py-1.5 text-sm font-medium transition hover:bg-blue-500"
+            className="rounded-md border border-white/[0.15] px-4 py-1.5 text-[13px] font-medium text-[#fafafa] transition hover:bg-white hover:text-[#09090b]"
           >
             Subscribe {PRICE_MONTHLY}/mo
           </Link>
