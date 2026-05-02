@@ -1,19 +1,17 @@
 import Link from "next/link";
-import { PRICE_MONTHLY } from "@/lib/constants";
 
 export default function SubscribeCTA() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-20 text-center">
-      <h2 className="text-2xl font-semibold text-[#fafafa]">
+    <section className="py-14 px-6 text-center" style={{ background: "var(--bg-cta)" }}>
+      <h2 className="text-xl font-semibold" style={{ color: "var(--text)" }}>
         Get these events in your calendar
       </h2>
-      <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-[#52525b]">
-        Subscribe for {PRICE_MONTHLY}/month. All 9 category calendars sync to
-        Google Calendar. Cancel anytime.
+      <p className="mt-2 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        Subscribe for $2.99/month. 9 category calendars sync to Google Calendar. Cancel anytime.
       </p>
       <Link
         href="/subscribe"
-        className="mt-6 inline-block rounded-md border border-white/[0.15] px-6 py-2.5 text-[14px] font-medium text-[#fafafa] transition hover:bg-white hover:text-[#09090b]"
+        className="mt-5 inline-block rounded-md bg-[#111827] px-6 py-2.5 text-[13px] font-medium text-white dark:bg-white dark:text-[#111827]"
       >
         Subscribe
       </Link>

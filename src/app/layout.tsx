@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,27 +11,15 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "NYC Insider List — What's Happening in New York",
-  description:
-    "Curated events across rooftops, Broadway, concerts, museums, and more. Updated weekly.",
-  openGraph: {
-    title: "NYC Insider List",
-    description: "Curated NYC events. Updated weekly.",
-    url: "https://nycinsiderlist.com",
-    siteName: "NYC Insider List",
-    type: "website",
-  },
+  title: "NYC Insider List",
+  description: "Curated events across rooftops, Broadway, concerts, museums, and more. Updated weekly.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="min-h-full flex flex-col font-[family-name:var(--font-inter)] antialiased">
-        {children}
+    <html lang="en" className={`${inter.variable} h-full`} suppressHydrationWarning>
+      <body className="min-h-full font-[family-name:var(--font-inter)] antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

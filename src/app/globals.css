@@ -1,14 +1,6 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg: #09090b;
-  --color-card: rgba(255, 255, 255, 0.02);
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(255, 255, 255, 0.12);
-  --color-text: #fafafa;
-  --color-text-secondary: #71717a;
-  --color-text-muted: #52525b;
-
   --color-cat-rooftop: #3b82f6;
   --color-cat-broadway: #a855f7;
   --color-cat-concert: #eab308;
@@ -17,26 +9,45 @@
   --color-cat-free: #10b981;
   --color-cat-sports: #f97316;
   --color-cat-film: #818cf8;
-  --color-cat-other: #52525b;
+  --color-cat-other: #6b7280;
+}
+
+:root {
+  --bg: #fafafa;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-nav: #ffffff;
+  --bg-cta: #f3f4f6;
+  --border: #e5e7eb;
+  --border-hover: #d1d5db;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --shadow-hover: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.dark {
+  --bg: #09090b;
+  --bg-card: #18181b;
+  --bg-sidebar: #0a0a0a;
+  --bg-nav: #0a0a0a;
+  --bg-cta: #111827;
+  --border: #27272a;
+  --border-hover: #3f3f46;
+  --text: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --shadow-hover: 0 2px 8px rgba(0,0,0,0.3);
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--bg);
+  color: var(--text);
   font-weight: 400;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 3px;
-}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

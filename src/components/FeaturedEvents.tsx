@@ -6,11 +6,14 @@ export default function FeaturedEvents({ events }: { events: Event[] }) {
   if (events.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-5 pb-8">
-      <h2 className="mb-4 text-[11px] font-medium uppercase tracking-[0.1em] text-[#52525b]">
+    <section className="mb-6">
+      <h2
+        className="mb-3 text-[11px] font-medium uppercase"
+        style={{ color: "var(--text-muted)", letterSpacing: "0.1em" }}
+      >
         Editor&apos;s Picks
       </h2>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
         {events.slice(0, 3).map((event) => {
           const meta = getCategoryMeta(event.category);
           return (
@@ -19,33 +22,49 @@ export default function FeaturedEvents({ events }: { events: Event[] }) {
               href={event.url ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition hover:-translate-y-0.5 hover:border-white/[0.12]"
+              className="group overflow-hidden rounded-lg border transition hover:-translate-y-px"
+              style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--border-hover)";
+                e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
             >
-              <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-[#52525b]">
-                {event.category}
-              </p>
-              <h3 className="mt-2 text-[18px] font-semibold leading-snug text-[#fafafa] group-hover:text-white">
-                {event.title}
-              </h3>
-              {event.description && (
-                <p className="mt-2 line-clamp-1 text-[13px] leading-relaxed text-[#52525b]">
-                  {event.description}
-                </p>
-              )}
-              <div className="mt-4 flex flex-wrap gap-x-1.5 text-[12px] text-[#3f3f46]">
-                <span>{format(parseISO(event.date), "MMM d")}</span>
-                {event.time && (
-                  <>
-                    <span>&middot;</span>
-                    <span>{event.time}</span>
-                  </>
-                )}
-                {event.venue && (
-                  <>
-                    <span>&middot;</span>
-                    <span>{event.venue}</span>
-                  </>
-                )}
+              <div className="h-[2px]" style={{ backgroundColor: "#d97706" }} />
+              <div className="px-4 py-3.5">
+                <span
+                  className="text-[11px] font-medium uppercase"
+                  style={{ color: "var(--text-muted)", letterSpacing: "0.05em" }}
+                >
+                  {event.category}
+                </span>
+                <h3
+                  className="mt-1 text-[15px] font-semibold leading-snug"
+                  style={{ color: "var(--text)" }}
+                >
+                  <span style={{ color: "#d97706" }}>&#9733;</span> {event.title}
+                </h3>
+                <div
+                  className="mt-1.5 flex items-center gap-1 text-[12px]"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  <span>{format(parseISO(event.date), "EEE, MMM d")}</span>
+                  {event.time && (
+                    <>
+                      <span style={{ color: "var(--text-muted)" }}>&middot;</span>
+                      <span>{event.time}</span>
+                    </>
+                  )}
+                  {event.venue && (
+                    <>
+                      <span style={{ color: "var(--text-muted)" }}>&middot;</span>
+                      <span>{event.venue}</span>
+                    </>
+                  )}
+                </div>
               </div>
             </a>
           );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PRICE_MONTHLY } from "@/lib/constants";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -13,23 +12,17 @@ export default function SubscribePage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
-
     setLoading(true);
     setError("");
-
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setError(data.error || "Something went wrong");
-      }
+      if (data.url) window.location.href = data.url;
+      else setError(data.error || "Something went wrong");
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -38,45 +31,38 @@ export default function SubscribePage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-5">
+    <div className="flex min-h-screen flex-col items-center justify-center px-5" style={{ background: "var(--bg)" }}>
       <div className="w-full max-w-sm">
-        <Link
-          href="/"
-          className="mb-8 inline-flex items-center gap-1 text-[13px] text-[#52525b] transition hover:text-[#71717a]"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back
+        <Link href="/" className="mb-6 inline-flex items-center gap-1 text-[13px]" style={{ color: "var(--text-muted)" }}>
+          <ArrowLeft className="h-3.5 w-3.5" /> Back
         </Link>
 
-        <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-8">
-          <h1 className="text-xl font-semibold text-[#fafafa]">Subscribe</h1>
-          <p className="mt-1 text-[13px] text-[#52525b]">
-            {PRICE_MONTHLY}/month. 9 Google Calendar feeds, auto-updated weekly.
-            Cancel anytime.
+        <div className="rounded-lg border p-7" style={{ background: "var(--bg-card)", borderColor: "var(--border)" }}>
+          <h1 className="text-lg font-semibold" style={{ color: "var(--text)" }}>Subscribe</h1>
+          <p className="mt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+            $2.99/month. 9 Google Calendar feeds, auto-updated weekly. Cancel anytime.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+          <form onSubmit={handleSubmit} className="mt-5 space-y-3">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your Google account email"
-              className="w-full rounded-lg border border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-[14px] text-[#fafafa] placeholder-[#52525b] outline-none transition focus:border-white/[0.15]"
+              className="w-full rounded-md border px-3.5 py-2.5 text-[13px] outline-none transition focus:ring-1 focus:ring-blue-500/30"
+              style={{ background: "var(--bg)", borderColor: "var(--border)", color: "var(--text)" }}
             />
-
-            {error && <p className="text-[13px] text-red-400">{error}</p>}
-
+            {error && <p className="text-[12px] text-red-500">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg border border-white/[0.15] py-2.5 text-[14px] font-medium text-[#fafafa] transition hover:bg-white hover:text-[#09090b] disabled:opacity-40"
+              className="w-full rounded-md bg-[#111827] py-2.5 text-[13px] font-medium text-white transition disabled:opacity-40 dark:bg-white dark:text-[#111827]"
             >
-              {loading ? "Redirecting..." : `Subscribe -- ${PRICE_MONTHLY}/mo`}
+              {loading ? "Redirecting..." : "Subscribe -- $2.99/mo"}
             </button>
           </form>
-
-          <p className="mt-4 text-center text-[11px] text-[#3f3f46]">
+          <p className="mt-3 text-center text-[11px]" style={{ color: "var(--text-muted)" }}>
             Powered by Stripe. Payment info never stored on our servers.
           </p>
         </div>
