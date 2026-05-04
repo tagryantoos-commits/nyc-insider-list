@@ -82,7 +82,7 @@ export default function Hero({ eventCount }: { eventCount: number }) {
           letterSpacing: "0.02em",
         }}
       >
-        {eventCount} events &middot; 9 categories &middot; Updated weekly
+        {eventCount} events &nbsp;&middot;&nbsp; 9 categories &nbsp;&middot;&nbsp; Updated weekly
       </p>
     </section>
   );
