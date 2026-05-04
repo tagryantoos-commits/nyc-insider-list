@@ -9,16 +9,30 @@ export default function EventCard({ event }: { event: Event }) {
     (event.description ?? "").toLowerCase().includes("sold out");
 
   let priceLabel = "";
-  let priceColor = "var(--text-muted)";
+  let priceColor = "var(--text-secondary)";
+  let priceWeight = 600;
   if (isSoldOut) {
     priceLabel = "Sold Out";
     priceColor = "var(--text-muted)";
+    priceWeight = 400;
   } else if (event.is_free) {
     priceLabel = "Free";
-    priceColor = "#10b981";
+    priceColor = "#059669";
+    priceWeight = 600;
   } else if (event.cost) {
     priceLabel = event.cost;
-    priceColor = meta.color;
+    priceColor = "var(--text-secondary)";
+    priceWeight = 600;
+  }
+
+  const dateStr = format(parseISO(event.date), "EEE, MMM d");
+  const metaParts = [dateStr];
+  if (event.time) metaParts.push(event.time);
+  if (event.venue) {
+    const venueStr = event.neighborhood
+      ? `${event.venue}, ${event.neighborhood}`
+      : event.venue;
+    metaParts.push(venueStr);
   }
 
   return (
@@ -26,63 +40,73 @@ export default function EventCard({ event }: { event: Event }) {
       href={event.url ?? "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex overflow-hidden rounded-lg border transition hover:-translate-y-px"
+      className="group block rounded-lg border transition-all duration-150 hover:-translate-y-px"
       style={{
         background: "var(--bg-card)",
         borderColor: "var(--border)",
+        borderLeftWidth: 2,
+        borderLeftColor: `${meta.color}59`, // 35% opacity (hex 59)
         opacity: isSoldOut ? 0.55 : 1,
+        cursor: "pointer",
+        padding: "14px 16px",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = "var(--border-hover)";
-        e.currentTarget.style.boxShadow = "var(--shadow-hover)";
+        e.currentTarget.style.borderLeftColor = `${meta.color}59`;
+        e.currentTarget.style.background = "var(--bg-card-hover)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "var(--border)";
-        e.currentTarget.style.boxShadow = "none";
+        e.currentTarget.style.borderLeftColor = `${meta.color}59`;
+        e.currentTarget.style.background = "var(--bg-card)";
       }}
     >
-      <div className="w-[2px] shrink-0" style={{ backgroundColor: meta.color }} />
-      <div className="flex-1 px-4 py-3.5">
-        {/* Row 1: Category + Price */}
-        <div className="flex items-center justify-between">
-          <span
-            className="text-[11px] font-medium uppercase"
-            style={{ color: "var(--text-muted)", letterSpacing: "0.05em" }}
-          >
-            {event.category}
-          </span>
-          {priceLabel && (
-            <span className="text-[11px] font-medium" style={{ color: priceColor }}>
-              {priceLabel}
-            </span>
-          )}
-        </div>
-
-        {/* Row 2: Title */}
-        <h3
-          className="mt-1 truncate text-[14px] font-semibold leading-snug"
-          style={{ color: "var(--text)" }}
+      {/* Line 1: Category + Price */}
+      <div className="flex items-center justify-between">
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 500,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase" as const,
+            color: "var(--text-muted)",
+          }}
         >
-          {event.title}
-        </h3>
-
-        {/* Row 3: Date/Time/Venue */}
-        <div className="mt-1 flex items-center gap-1 text-[12px]" style={{ color: "var(--text-secondary)" }}>
-          <span>{format(parseISO(event.date), "EEE, MMM d")}</span>
-          {event.time && (
-            <>
-              <span style={{ color: "var(--text-muted)" }}>&middot;</span>
-              <span>{event.time}</span>
-            </>
-          )}
-          {event.venue && (
-            <>
-              <span style={{ color: "var(--text-muted)" }}>&middot;</span>
-              <span className="truncate">{event.venue}</span>
-            </>
-          )}
-        </div>
+          {event.category}
+        </span>
+        {priceLabel && (
+          <span style={{ fontSize: 13, fontWeight: priceWeight, color: priceColor }}>
+            {priceLabel}
+          </span>
+        )}
       </div>
+
+      {/* Line 2: Title */}
+      <h3
+        className="truncate"
+        style={{
+          fontSize: 15,
+          fontWeight: 600,
+          lineHeight: 1.3,
+          color: "var(--text)",
+          marginTop: 4,
+        }}
+      >
+        {event.title}
+      </h3>
+
+      {/* Line 3: Metadata */}
+      <p
+        className="truncate"
+        style={{
+          fontSize: 12,
+          fontWeight: 400,
+          color: "var(--text-muted)",
+          marginTop: 4,
+        }}
+      >
+        {metaParts.join(" \u00B7 ")}
+      </p>
     </a>
   );
 }

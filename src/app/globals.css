@@ -2,52 +2,76 @@
 
 @theme inline {
   --color-cat-rooftop: #3b82f6;
-  --color-cat-broadway: #a855f7;
-  --color-cat-concert: #eab308;
-  --color-cat-museum: #22c55e;
-  --color-cat-festival: #ef4444;
+  --color-cat-broadway: #8b5cf6;
+  --color-cat-concert: #d97706;
+  --color-cat-museum: #059669;
+  --color-cat-festival: #dc2626;
   --color-cat-free: #10b981;
-  --color-cat-sports: #f97316;
-  --color-cat-film: #818cf8;
+  --color-cat-sports: #ea580c;
+  --color-cat-film: #6366f1;
   --color-cat-other: #6b7280;
 }
 
 :root {
   --bg: #fafafa;
   --bg-card: #ffffff;
-  --bg-sidebar: #ffffff;
+  --bg-card-hover: #f9fafb;
+  --bg-filter-bar: #ffffff;
+  --bg-sidebar: #f8f9fa;
   --bg-nav: #ffffff;
-  --bg-cta: #f3f4f6;
+  --bg-cta: #f8f9fa;
   --border: #e5e7eb;
   --border-hover: #d1d5db;
   --text: #111827;
-  --text-secondary: #6b7280;
+  --text-secondary: #4b5563;
   --text-muted: #9ca3af;
-  --shadow-hover: 0 2px 8px rgba(0,0,0,0.04);
+  --accent-subtle: #f0f4ff;
 }
 
 .dark {
   --bg: #09090b;
-  --bg-card: #18181b;
-  --bg-sidebar: #0a0a0a;
-  --bg-nav: #0a0a0a;
-  --bg-cta: #111827;
-  --border: #27272a;
-  --border-hover: #3f3f46;
-  --text: #fafafa;
+  --bg-card: #131316;
+  --bg-card-hover: #1a1a1f;
+  --bg-filter-bar: #111114;
+  --bg-sidebar: #0c0c0f;
+  --bg-nav: #111114;
+  --bg-cta: #0c0c0f;
+  --border: #1e1e24;
+  --border-hover: #2a2a32;
+  --text: #f4f4f5;
   --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --shadow-hover: 0 2px 8px rgba(0,0,0,0.3);
+  --text-muted: #52525b;
+  --accent-subtle: rgba(59,130,246,0.08);
 }
+
+* { box-sizing: border-box; }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 html { scroll-behavior: smooth; }
 
+/* Skeleton pulse animation */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.15; }
+}
+.skeleton-pulse {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Mobile filter scroll - hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

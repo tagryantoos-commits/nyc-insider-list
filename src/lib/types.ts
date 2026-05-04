@@ -29,6 +29,6 @@ export interface Subscriber {
   updated_at: string;
 }
 
-export type ViewMode = "cards" | "list";
+export type TimeFilter = "all" | "today" | "week" | "month";
 
-export type TimeFilter = "all" | "upcoming" | "week" | "month";
+export type SortMode = "date" | "price-low" | "price-high";
