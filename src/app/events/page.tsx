@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase";
 import type { Event } from "@/lib/types";
-import MagazineHome from "@/components/MagazineHome";
+import EventExplorer from "@/components/EventExplorer";
 
 export const revalidate = 3600;
 
@@ -18,7 +18,19 @@ async function getEvents(): Promise<Event[]> {
   }
 }
 
-export default async function HomePage() {
+export default async function EventsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; q?: string }>;
+}) {
   const events = await getEvents();
-  return <MagazineHome events={events} />;
+  const params = await searchParams;
+
+  return (
+    <EventExplorer
+      events={events}
+      initialCategory={params.category ?? null}
+      initialSearch={params.q ?? ""}
+    />
+  );
 }

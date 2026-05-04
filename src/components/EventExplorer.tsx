@@ -14,7 +14,6 @@ import {
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import MobileFilters from "./MobileFilters";
-import FeaturedEvents from "./FeaturedEvents";
 import DateGroup from "./DateGroup";
 import EventCard from "./EventCard";
 import SubscribeCTA from "./SubscribeCTA";
@@ -41,7 +40,7 @@ function SkeletonCard() {
         <div className="skeleton-pulse" style={{ width: 60, height: 11 }} />
         <div className="skeleton-pulse" style={{ width: 40, height: 13 }} />
       </div>
-      <div className="skeleton-pulse" style={{ width: "80%", height: 15, marginTop: 8 }} />
+      <div className="skeleton-pulse" style={{ width: "80%", height: 14, marginTop: 8 }} />
       <div className="skeleton-pulse" style={{ width: "60%", height: 12, marginTop: 8 }} />
     </div>
   );
@@ -49,13 +48,15 @@ function SkeletonCard() {
 
 export default function EventExplorer({
   events,
-  featured,
+  initialCategory,
+  initialSearch,
 }: {
   events: Event[];
-  featured: Event[];
+  initialCategory?: string | null;
+  initialSearch?: string;
 }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(initialSearch ?? "");
+  const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory ?? null);
   const [freeOnly, setFreeOnly] = useState(false);
   const [hideSoldOut, setHideSoldOut] = useState(false);
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
@@ -65,25 +66,15 @@ export default function EventExplorer({
     const now = startOfDay(new Date());
     let result = events.filter((e) => !isBefore(parseISO(e.date), now));
 
-    // Time filter
     if (timeFilter === "today") {
       const todayEnd = endOfDay(new Date());
-      result = result.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, todayEnd);
-      });
+      result = result.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, todayEnd); });
     } else if (timeFilter === "week") {
       const weekEnd = endOfDay(addDays(new Date(), 7));
-      result = result.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, weekEnd);
-      });
+      result = result.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, weekEnd); });
     } else if (timeFilter === "month") {
       const monthEnd = endOfDay(addMonths(new Date(), 1));
-      result = result.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, monthEnd);
-      });
+      result = result.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, monthEnd); });
     }
 
     if (activeCategory) result = result.filter((e) => e.category === activeCategory);
@@ -106,7 +97,6 @@ export default function EventExplorer({
       );
     }
 
-    // Sort
     if (sortMode === "date") {
       result.sort((a, b) => a.date.localeCompare(b.date));
     } else if (sortMode === "price-low") {
@@ -118,30 +108,19 @@ export default function EventExplorer({
     return result;
   }, [events, searchQuery, activeCategory, freeOnly, hideSoldOut, timeFilter, sortMode]);
 
-  // Category counts (from filtered-minus-category so counts update correctly)
   const categoryCounts = useMemo(() => {
     const now = startOfDay(new Date());
     let base = events.filter((e) => !isBefore(parseISO(e.date), now));
 
-    // Apply time filter to counts
     if (timeFilter === "today") {
       const todayEnd = endOfDay(new Date());
-      base = base.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, todayEnd);
-      });
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, todayEnd); });
     } else if (timeFilter === "week") {
       const weekEnd = endOfDay(addDays(new Date(), 7));
-      base = base.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, weekEnd);
-      });
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, weekEnd); });
     } else if (timeFilter === "month") {
       const monthEnd = endOfDay(addMonths(new Date(), 1));
-      base = base.filter((e) => {
-        const d = parseISO(e.date);
-        return !isBefore(d, now) && !isAfter(d, monthEnd);
-      });
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, monthEnd); });
     }
 
     if (freeOnly) base = base.filter((e) => e.is_free);
@@ -168,7 +147,6 @@ export default function EventExplorer({
 
   const totalCount = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
 
-  // Group by date
   const dateGroups = useMemo(() => {
     const groups: Record<string, Event[]> = {};
     for (const e of filtered) {
@@ -178,12 +156,11 @@ export default function EventExplorer({
   }, [filtered]);
 
   const isSearching = searchQuery.trim().length > 0;
-  const showFeatured = !activeCategory && !isSearching && featured.length > 0 && timeFilter === "all";
   const isLoading = events.length === 0;
 
   return (
     <>
-      <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+      <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} showSearchBar />
       <MobileFilters
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
@@ -199,7 +176,7 @@ export default function EventExplorer({
         onSortModeChange={setSortMode}
       />
 
-      <div className="mx-auto flex max-w-[1400px]">
+      <div className="mx-auto flex max-w-[1200px]">
         <Sidebar
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
@@ -216,7 +193,6 @@ export default function EventExplorer({
         />
 
         <main className="flex-1 min-w-0 px-4 py-5 lg:px-6">
-          {/* Skeleton loading */}
           {isLoading && (
             <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 8 }).map((_, i) => (
@@ -227,17 +203,13 @@ export default function EventExplorer({
 
           {!isLoading && (
             <>
-              {showFeatured && <FeaturedEvents events={featured} />}
-
               {isSearching || sortMode !== "date" ? (
-                /* Flat grid when searching or sorting by price */
                 <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
                   {filtered.map((e) => (
                     <EventCard key={e.id} event={e} />
                   ))}
                 </div>
               ) : (
-                /* Date-grouped view */
                 dateGroups.map(([date, evts]) => (
                   <DateGroup key={date} date={date} events={evts} />
                 ))
@@ -245,12 +217,8 @@ export default function EventExplorer({
 
               {filtered.length === 0 && (
                 <div className="py-20 text-center">
-                  <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>
-                    No events found
-                  </p>
-                  <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
-                    Try adjusting your filters or search
-                  </p>
+                  <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>No events found</p>
+                  <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>Try adjusting your filters or search</p>
                 </div>
               )}
             </>
@@ -260,12 +228,8 @@ export default function EventExplorer({
 
       <SubscribeCTA />
       <footer
-        className="border-t py-5 text-center"
-        style={{
-          borderColor: "var(--border)",
-          color: "var(--text-muted)",
-          fontSize: 11,
-        }}
+        className="py-5 text-center"
+        style={{ borderTop: "1px solid var(--border)", color: "var(--text-muted)", fontSize: 11 }}
       >
         &copy; {new Date().getFullYear()} NYC Insider List
       </footer>

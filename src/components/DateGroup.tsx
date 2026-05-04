@@ -17,7 +17,7 @@ export default function DateGroup({
       <div
         className="sticky z-30 flex items-center gap-3"
         style={{
-          top: 56,
+          top: 52,
           background: "var(--bg)",
           paddingTop: 4,
           paddingBottom: 10,
@@ -27,11 +27,7 @@ export default function DateGroup({
       >
         <span
           className="shrink-0"
-          style={{
-            fontSize: 13,
-            fontWeight: 600,
-            color: "var(--text)",
-          }}
+          style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}
         >
           {formatted}
         </span>

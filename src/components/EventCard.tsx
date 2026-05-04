@@ -9,20 +9,20 @@ export default function EventCard({ event }: { event: Event }) {
     (event.description ?? "").toLowerCase().includes("sold out");
 
   let priceLabel = "";
-  let priceColor = "var(--text-secondary)";
-  let priceWeight = 600;
+  let priceColor = "var(--gold)";
+  let priceWeight = 700;
   if (isSoldOut) {
     priceLabel = "Sold Out";
     priceColor = "var(--text-muted)";
     priceWeight = 400;
   } else if (event.is_free) {
     priceLabel = "Free";
-    priceColor = "#059669";
-    priceWeight = 600;
+    priceColor = "var(--free)";
+    priceWeight = 700;
   } else if (event.cost) {
     priceLabel = event.cost;
-    priceColor = "var(--text-secondary)";
-    priceWeight = 600;
+    priceColor = "var(--gold)";
+    priceWeight = 700;
   }
 
   const dateStr = format(parseISO(event.date), "EEE, MMM d");
@@ -45,19 +45,19 @@ export default function EventCard({ event }: { event: Event }) {
         background: "var(--bg-card)",
         borderColor: "var(--border)",
         borderLeftWidth: 2,
-        borderLeftColor: `${meta.color}59`, // 35% opacity (hex 59)
-        opacity: isSoldOut ? 0.55 : 1,
+        borderLeftColor: `${meta.color}40`,
+        opacity: isSoldOut ? 0.5 : 1,
         cursor: "pointer",
         padding: "14px 16px",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = "var(--border-hover)";
-        e.currentTarget.style.borderLeftColor = `${meta.color}59`;
+        e.currentTarget.style.borderLeftColor = `${meta.color}40`;
         e.currentTarget.style.background = "var(--bg-card-hover)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "var(--border)";
-        e.currentTarget.style.borderLeftColor = `${meta.color}59`;
+        e.currentTarget.style.borderLeftColor = `${meta.color}40`;
         e.currentTarget.style.background = "var(--bg-card)";
       }}
     >
@@ -65,11 +65,11 @@ export default function EventCard({ event }: { event: Event }) {
       <div className="flex items-center justify-between">
         <span
           style={{
-            fontSize: 11,
-            fontWeight: 500,
+            fontSize: 10,
+            fontWeight: 600,
             letterSpacing: "0.05em",
             textTransform: "uppercase" as const,
-            color: "var(--text-muted)",
+            color: meta.color,
           }}
         >
           {event.category}
@@ -85,10 +85,10 @@ export default function EventCard({ event }: { event: Event }) {
       <h3
         className="truncate"
         style={{
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: 600,
           lineHeight: 1.3,
-          color: "var(--text)",
+          color: "#fff",
           marginTop: 4,
         }}
       >
@@ -101,7 +101,7 @@ export default function EventCard({ event }: { event: Event }) {
         style={{
           fontSize: 12,
           fontWeight: 400,
-          color: "var(--text-muted)",
+          color: "var(--text-secondary)",
           marginTop: 4,
         }}
       >

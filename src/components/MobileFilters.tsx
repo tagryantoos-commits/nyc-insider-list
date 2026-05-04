@@ -44,11 +44,11 @@ export default function MobileFilters({
   ];
 
   return (
-    <div className="lg:hidden sticky z-40" style={{ top: 56 }}>
-      {/* Category tabs - horizontal scroll */}
+    <div className="lg:hidden sticky z-40" style={{ top: 52 }}>
+      {/* Category tabs */}
       <div
         className="border-b overflow-x-auto hide-scrollbar"
-        style={{ background: "var(--bg-filter-bar)", borderColor: "var(--border)" }}
+        style={{ background: "var(--bg)", borderColor: "var(--border)" }}
       >
         <div className="flex items-center gap-1 px-4 py-2">
           <button
@@ -58,8 +58,8 @@ export default function MobileFilters({
               padding: "4px 10px",
               fontSize: 12,
               fontWeight: activeCategory === null ? 600 : 500,
-              background: activeCategory === null ? "var(--accent-subtle)" : "transparent",
-              color: activeCategory === null ? "var(--text)" : "var(--text-muted)",
+              background: activeCategory === null ? "rgba(255,255,255,0.05)" : "transparent",
+              color: activeCategory === null ? "#fff" : "var(--text-muted)",
             }}
           >
             All ({totalCount})
@@ -77,20 +77,16 @@ export default function MobileFilters({
                   padding: "4px 10px",
                   fontSize: 12,
                   fontWeight: isActive ? 600 : 500,
-                  background: isActive ? "var(--accent-subtle)" : "transparent",
-                  color: isActive ? "var(--text)" : "var(--text-muted)",
+                  background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
+                  color: isActive ? "#fff" : "var(--text-muted)",
                 }}
               >
-                <span
-                  className="rounded-full"
-                  style={{ width: 6, height: 6, backgroundColor: cat.color }}
-                />
+                <span className="rounded-full" style={{ width: 6, height: 6, backgroundColor: cat.color }} />
                 {cat.label} ({count})
               </button>
             );
           })}
 
-          {/* Filters toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="shrink-0 flex items-center gap-1 ml-2 rounded-md transition"
@@ -98,8 +94,8 @@ export default function MobileFilters({
               padding: "4px 10px",
               fontSize: 12,
               fontWeight: 500,
-              color: showFilters ? "var(--text)" : "var(--text-muted)",
-              background: showFilters ? "var(--accent-subtle)" : "transparent",
+              color: showFilters ? "#fff" : "var(--text-muted)",
+              background: showFilters ? "rgba(255,255,255,0.05)" : "transparent",
             }}
           >
             <SlidersHorizontal style={{ width: 12, height: 12 }} />
@@ -112,11 +108,7 @@ export default function MobileFilters({
       {showFilters && (
         <div
           className="border-b"
-          style={{
-            background: "var(--bg-filter-bar)",
-            borderColor: "var(--border)",
-            padding: "12px 16px",
-          }}
+          style={{ background: "var(--bg)", borderColor: "var(--border)", padding: "12px 16px" }}
         >
           <div className="flex items-center justify-between mb-3">
             <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)", letterSpacing: "0.06em", textTransform: "uppercase" as const }}>
@@ -141,13 +133,7 @@ export default function MobileFilters({
           <div className="flex flex-wrap gap-x-4 gap-y-2 mt-3">
             {timeOptions.map((opt) => (
               <label key={opt.value} className="flex items-center gap-1.5 cursor-pointer" style={{ color: "var(--text-secondary)", fontSize: 13 }}>
-                <input
-                  type="radio"
-                  name="mobileTimeFilter"
-                  checked={timeFilter === opt.value}
-                  onChange={() => onTimeFilterChange(opt.value)}
-                  className="accent-blue-500"
-                />
+                <input type="radio" name="mobileTimeFilter" checked={timeFilter === opt.value} onChange={() => onTimeFilterChange(opt.value)} className="accent-amber-400" />
                 {opt.label}
               </label>
             ))}
@@ -157,15 +143,7 @@ export default function MobileFilters({
             value={sortMode}
             onChange={(e) => onSortModeChange(e.target.value as SortMode)}
             className="mt-3 w-full rounded-md border outline-none"
-            style={{
-              fontSize: 13,
-              height: 32,
-              paddingLeft: 8,
-              paddingRight: 8,
-              background: "var(--bg-card)",
-              borderColor: "var(--border)",
-              color: "var(--text-secondary)",
-            }}
+            style={{ fontSize: 13, height: 32, paddingLeft: 8, paddingRight: 8, background: "var(--bg-card)", borderColor: "var(--border)", color: "var(--text-secondary)" }}
           >
             <option value="date">Sort by date</option>
             <option value="price-low">Price: low to high</option>

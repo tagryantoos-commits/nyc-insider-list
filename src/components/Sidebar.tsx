@@ -45,17 +45,17 @@ export default function Sidebar({
       className="hidden lg:block shrink-0 sticky self-start overflow-y-auto border-r"
       style={{
         width: 200,
-        top: 56,
-        height: "calc(100vh - 56px)",
+        top: 52,
+        height: "calc(100vh - 52px)",
         borderColor: "var(--border)",
-        background: "var(--bg-sidebar)",
+        background: "var(--bg)",
       }}
     >
       <div style={{ padding: "20px 16px" }}>
         {/* Categories header */}
         <h2
           style={{
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
             letterSpacing: "0.06em",
             textTransform: "uppercase" as const,
@@ -68,7 +68,6 @@ export default function Sidebar({
 
         {/* Category list */}
         <div className="space-y-0.5">
-          {/* All */}
           <button
             onClick={() => onCategoryChange(null)}
             className="flex w-full items-center gap-2 rounded-md transition"
@@ -76,8 +75,8 @@ export default function Sidebar({
               height: 32,
               paddingLeft: 8,
               paddingRight: 8,
-              background: activeCategory === null ? "var(--accent-subtle)" : "transparent",
-              color: activeCategory === null ? "var(--text)" : "var(--text-secondary)",
+              background: activeCategory === null ? "rgba(255,255,255,0.05)" : "transparent",
+              color: activeCategory === null ? "#fff" : "var(--text-secondary)",
               fontWeight: activeCategory === null ? 600 : 500,
               fontSize: 13,
             }}
@@ -102,8 +101,8 @@ export default function Sidebar({
                   height: 32,
                   paddingLeft: 8,
                   paddingRight: 8,
-                  background: isActive ? "var(--accent-subtle)" : "transparent",
-                  color: isActive ? "var(--text)" : "var(--text-secondary)",
+                  background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
+                  color: isActive ? "#fff" : "var(--text-secondary)",
                   fontWeight: isActive ? 600 : 500,
                   fontSize: 13,
                 }}
@@ -119,16 +118,11 @@ export default function Sidebar({
           })}
         </div>
 
-        {/* Filters divider */}
-        <div
-          className="border-t"
-          style={{ borderColor: "var(--border)", margin: "16px 0" }}
-        />
-
-        {/* Filters header */}
+        {/* Filters */}
+        <div className="border-t" style={{ borderColor: "var(--border)", margin: "16px 0" }} />
         <h2
           style={{
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
             letterSpacing: "0.06em",
             textTransform: "uppercase" as const,
@@ -140,64 +134,40 @@ export default function Sidebar({
         </h2>
 
         <div className="space-y-2">
-          <label
-            className="flex items-center gap-2 cursor-pointer"
-            style={{ color: "var(--text-secondary)", fontSize: 13 }}
-          >
-            <input
-              type="checkbox"
-              checked={freeOnly}
-              onChange={(e) => onFreeOnlyChange(e.target.checked)}
-              className="accent-emerald-500"
-            />
+          <label className="flex items-center gap-2 cursor-pointer" style={{ color: "var(--text-secondary)", fontSize: 13 }}>
+            <input type="checkbox" checked={freeOnly} onChange={(e) => onFreeOnlyChange(e.target.checked)} className="accent-emerald-500" />
             Free events only
           </label>
-          <label
-            className="flex items-center gap-2 cursor-pointer"
-            style={{ color: "var(--text-secondary)", fontSize: 13 }}
-          >
-            <input
-              type="checkbox"
-              checked={hideSoldOut}
-              onChange={(e) => onHideSoldOutChange(e.target.checked)}
-              className="accent-gray-500"
-            />
+          <label className="flex items-center gap-2 cursor-pointer" style={{ color: "var(--text-secondary)", fontSize: 13 }}>
+            <input type="checkbox" checked={hideSoldOut} onChange={(e) => onHideSoldOutChange(e.target.checked)} className="accent-gray-500" />
             Hide sold out
           </label>
 
-          {/* Sort */}
-          <div style={{ marginTop: 8 }}>
-            <select
-              value={sortMode}
-              onChange={(e) => onSortModeChange(e.target.value as SortMode)}
-              className="w-full rounded-md border outline-none"
-              style={{
-                fontSize: 13,
-                height: 32,
-                paddingLeft: 8,
-                paddingRight: 8,
-                background: "var(--bg-card)",
-                borderColor: "var(--border)",
-                color: "var(--text-secondary)",
-              }}
-            >
-              <option value="date">Sort by date</option>
-              <option value="price-low">Price: low to high</option>
-              <option value="price-high">Price: high to low</option>
-            </select>
-          </div>
+          <select
+            value={sortMode}
+            onChange={(e) => onSortModeChange(e.target.value as SortMode)}
+            className="w-full rounded-md border outline-none mt-2"
+            style={{
+              fontSize: 13,
+              height: 32,
+              paddingLeft: 8,
+              paddingRight: 8,
+              background: "var(--bg-card)",
+              borderColor: "var(--border)",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <option value="date">Sort by date</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+          </select>
         </div>
 
-        {/* Time divider */}
-        <div
-          className="border-t"
-          style={{ borderColor: "var(--border)", margin: "16px 0" }}
-        />
-
-        {/* Time header */}
+        {/* Time */}
+        <div className="border-t" style={{ borderColor: "var(--border)", margin: "16px 0" }} />
         <h2
           style={{
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
             letterSpacing: "0.06em",
             textTransform: "uppercase" as const,
@@ -217,7 +187,7 @@ export default function Sidebar({
                 height: 32,
                 paddingLeft: 8,
                 paddingRight: 8,
-                color: timeFilter === opt.value ? "var(--text)" : "var(--text-secondary)",
+                color: timeFilter === opt.value ? "#fff" : "var(--text-secondary)",
                 fontWeight: timeFilter === opt.value ? 600 : 500,
                 fontSize: 13,
               }}
@@ -227,19 +197,15 @@ export default function Sidebar({
                 name="timeFilter"
                 checked={timeFilter === opt.value}
                 onChange={() => onTimeFilterChange(opt.value)}
-                className="accent-blue-500"
+                className="accent-amber-400"
               />
               {opt.label}
             </label>
           ))}
         </div>
 
-        {/* Subscribe CTA divider */}
-        <div
-          className="border-t"
-          style={{ borderColor: "var(--border)", margin: "16px 0" }}
-        />
-
+        {/* Subscribe CTA */}
+        <div className="border-t" style={{ borderColor: "var(--border)", margin: "16px 0" }} />
         <p style={{ color: "var(--text-muted)", fontSize: 12, marginBottom: 8 }}>
           Get calendar access
         </p>
@@ -249,10 +215,10 @@ export default function Sidebar({
           style={{
             width: "100%",
             height: 36,
-            background: "var(--text)",
-            color: "var(--bg)",
+            background: "var(--gold)",
+            color: "#0a0a0f",
             fontSize: 13,
-            fontWeight: 600,
+            fontWeight: 700,
           }}
         >
           Subscribe $2.99/mo
