@@ -5,7 +5,12 @@ import { SlidersHorizontal, X } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
 import type { TimeFilter, SortMode } from "@/lib/types";
 
+const BOROUGHS = ["Manhattan", "Brooklyn", "Queens", "Bronx"] as const;
+
 interface Props {
+  activeBorough: string | null;
+  onBoroughChange: (b: string | null) => void;
+  boroughCounts: Record<string, number>;
   activeCategory: string | null;
   onCategoryChange: (c: string | null) => void;
   categoryCounts: Record<string, number>;
@@ -21,6 +26,9 @@ interface Props {
 }
 
 export default function MobileFilters({
+  activeBorough,
+  onBoroughChange,
+  boroughCounts,
   activeCategory,
   onCategoryChange,
   categoryCounts,
@@ -45,6 +53,47 @@ export default function MobileFilters({
 
   return (
     <div className="lg:hidden sticky z-40" style={{ top: 52 }}>
+      {/* Borough tabs */}
+      <div
+        className="border-b overflow-x-auto hide-scrollbar"
+        style={{ background: "var(--bg)", borderColor: "var(--border)" }}
+      >
+        <div className="flex items-center gap-1 px-4 py-1.5">
+          <button
+            onClick={() => onBoroughChange(null)}
+            className="shrink-0 rounded-md transition"
+            style={{
+              padding: "3px 8px",
+              fontSize: 11,
+              fontWeight: activeBorough === null ? 600 : 500,
+              background: activeBorough === null ? "rgba(255,255,255,0.05)" : "transparent",
+              color: activeBorough === null ? "#fff" : "var(--text-muted)",
+            }}
+          >
+            All Boroughs
+          </button>
+          {BOROUGHS.map((b) => {
+            const isActive = activeBorough === b;
+            return (
+              <button
+                key={b}
+                onClick={() => onBoroughChange(isActive ? null : b)}
+                className="shrink-0 rounded-md transition"
+                style={{
+                  padding: "3px 8px",
+                  fontSize: 11,
+                  fontWeight: isActive ? 600 : 500,
+                  background: isActive ? "rgba(255,255,255,0.05)" : "transparent",
+                  color: isActive ? "#fff" : "var(--text-muted)",
+                }}
+              >
+                {b} ({boroughCounts[b] ?? 0})
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Category tabs */}
       <div
         className="border-b overflow-x-auto hide-scrollbar"

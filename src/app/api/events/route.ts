@@ -6,6 +6,7 @@ export const revalidate = 3600;
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const category = searchParams.get("category");
+  const borough = searchParams.get("borough");
   const free = searchParams.get("free");
   const from = searchParams.get("from");
   const to = searchParams.get("to");
@@ -16,6 +17,7 @@ export async function GET(request: NextRequest) {
   let query = supabase.from("events").select("*").order("date", { ascending: true });
 
   if (category) query = query.eq("category", category);
+  if (borough) query = query.eq("borough", borough);
   if (free === "true") query = query.eq("is_free", true);
   if (from) query = query.gte("date", from);
   if (to) query = query.lte("date", to);

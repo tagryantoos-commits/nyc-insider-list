@@ -30,6 +30,27 @@ def load_events(path: str) -> list[dict]:
         return json.load(f)
 
 
+def classify_borough(venue, neighborhood):
+    text = f"{venue or ''} {neighborhood or ''}".lower()
+    if "brooklyn" in text:
+        return "Brooklyn"
+    if "queens" in text:
+        return "Queens"
+    if "bronx" in text or "yankee stadium" in text:
+        return "Bronx"
+    if "staten island" in text:
+        return "Staten Island"
+    brooklyn_kw = ["williamsburg", "bushwick", "greenpoint", "dumbo", "park slope",
+                   "cobble hill", "fort greene", "prospect", "barclays", "brooklyn steel",
+                   "brooklyn bowl", "brooklyn mirage", "brooklyn museum", "coney island"]
+    if any(n in text for n in brooklyn_kw):
+        return "Brooklyn"
+    queens_kw = ["astoria", "long island city", "flushing", "citi field", "usta", "rockaway"]
+    if any(n in text for n in queens_kw):
+        return "Queens"
+    return "Manhattan"
+
+
 def parse_time(date_start: str) -> tuple[str | None, str | None]:
     """Extract time portion from ISO datetime string."""
     if not date_start or len(date_start) <= 10:
@@ -61,14 +82,18 @@ def transform_event(raw: dict) -> dict:
         if end_time_parsed:
             end_time = end_time_parsed
 
+    venue = (raw.get("location") or "")[:200] or None
+    neighborhood = raw.get("neighborhood") or None
+
     return {
         "title": (raw.get("title") or "").strip()[:500],
         "date": date,
         "time": time_str,
         "end_time": end_time,
-        "venue": (raw.get("location") or "")[:200] or None,
+        "venue": venue,
         "address": (raw.get("address") or "")[:300] or None,
-        "neighborhood": None,
+        "neighborhood": neighborhood,
+        "borough": classify_borough(venue, neighborhood),
         "category": raw.get("category", "Other"),
         "cost": None,
         "is_free": raw.get("is_free", False),

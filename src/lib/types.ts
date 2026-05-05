@@ -13,6 +13,7 @@ export interface Event {
   url: string | null;
   description: string | null;
   source: string | null;
+  borough: string | null;
   is_featured: boolean;
   created_at: string;
   updated_at: string;

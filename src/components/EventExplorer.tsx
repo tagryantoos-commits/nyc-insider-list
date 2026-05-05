@@ -56,6 +56,7 @@ export default function EventExplorer({
   initialSearch?: string;
 }) {
   const [searchQuery, setSearchQuery] = useState(initialSearch ?? "");
+  const [activeBorough, setActiveBorough] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory ?? null);
   const [freeOnly, setFreeOnly] = useState(false);
   const [hideSoldOut, setHideSoldOut] = useState(false);
@@ -77,6 +78,7 @@ export default function EventExplorer({
       result = result.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, monthEnd); });
     }
 
+    if (activeBorough) result = result.filter((e) => e.borough === activeBorough);
     if (activeCategory) result = result.filter((e) => e.category === activeCategory);
     if (freeOnly) result = result.filter((e) => e.is_free);
     if (hideSoldOut) {
@@ -106,7 +108,7 @@ export default function EventExplorer({
     }
 
     return result;
-  }, [events, searchQuery, activeCategory, freeOnly, hideSoldOut, timeFilter, sortMode]);
+  }, [events, searchQuery, activeBorough, activeCategory, freeOnly, hideSoldOut, timeFilter, sortMode]);
 
   const categoryCounts = useMemo(() => {
     const now = startOfDay(new Date());
@@ -123,6 +125,7 @@ export default function EventExplorer({
       base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, monthEnd); });
     }
 
+    if (activeBorough) base = base.filter((e) => e.borough === activeBorough);
     if (freeOnly) base = base.filter((e) => e.is_free);
     if (hideSoldOut) {
       base = base.filter(
@@ -143,7 +146,30 @@ export default function EventExplorer({
     const counts: Record<string, number> = {};
     for (const e of base) counts[e.category] = (counts[e.category] ?? 0) + 1;
     return counts;
-  }, [events, freeOnly, hideSoldOut, searchQuery, timeFilter]);
+  }, [events, activeBorough, freeOnly, hideSoldOut, searchQuery, timeFilter]);
+
+  const boroughCounts = useMemo(() => {
+    const now = startOfDay(new Date());
+    let base = events.filter((e) => !isBefore(parseISO(e.date), now));
+
+    if (timeFilter === "today") {
+      const todayEnd = endOfDay(new Date());
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, todayEnd); });
+    } else if (timeFilter === "week") {
+      const weekEnd = endOfDay(addDays(new Date(), 7));
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, weekEnd); });
+    } else if (timeFilter === "month") {
+      const monthEnd = endOfDay(addMonths(new Date(), 1));
+      base = base.filter((e) => { const d = parseISO(e.date); return !isBefore(d, now) && !isAfter(d, monthEnd); });
+    }
+
+    const counts: Record<string, number> = {};
+    for (const e of base) {
+      const b = e.borough ?? "Manhattan";
+      counts[b] = (counts[b] ?? 0) + 1;
+    }
+    return counts;
+  }, [events, timeFilter]);
 
   const totalCount = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
 
@@ -162,6 +188,9 @@ export default function EventExplorer({
     <>
       <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} showSearchBar />
       <MobileFilters
+        activeBorough={activeBorough}
+        onBoroughChange={setActiveBorough}
+        boroughCounts={boroughCounts}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
         categoryCounts={categoryCounts}
@@ -178,6 +207,9 @@ export default function EventExplorer({
 
       <div className="mx-auto flex max-w-[1200px]">
         <Sidebar
+          activeBorough={activeBorough}
+          onBoroughChange={setActiveBorough}
+          boroughCounts={boroughCounts}
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
           categoryCounts={categoryCounts}

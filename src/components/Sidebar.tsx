@@ -4,7 +4,12 @@ import { CATEGORIES } from "@/lib/constants";
 import type { TimeFilter, SortMode } from "@/lib/types";
 import Link from "next/link";
 
+const BOROUGHS = ["Manhattan", "Brooklyn", "Queens", "Bronx"] as const;
+
 interface Props {
+  activeBorough: string | null;
+  onBoroughChange: (b: string | null) => void;
+  boroughCounts: Record<string, number>;
   activeCategory: string | null;
   onCategoryChange: (c: string | null) => void;
   categoryCounts: Record<string, number>;
@@ -20,6 +25,9 @@ interface Props {
 }
 
 export default function Sidebar({
+  activeBorough,
+  onBoroughChange,
+  boroughCounts,
   activeCategory,
   onCategoryChange,
   categoryCounts,
@@ -52,6 +60,72 @@ export default function Sidebar({
       }}
     >
       <div style={{ padding: "20px 16px" }}>
+        {/* Borough header */}
+        <h2
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: "0.06em",
+            textTransform: "uppercase" as const,
+            color: "var(--text-muted)",
+            marginBottom: 8,
+          }}
+        >
+          Borough
+        </h2>
+
+        <div className="space-y-0.5">
+          <label
+            className="flex items-center gap-2 rounded-md cursor-pointer transition"
+            style={{
+              height: 32,
+              paddingLeft: 8,
+              paddingRight: 8,
+              color: activeBorough === null ? "#fff" : "var(--text-secondary)",
+              fontWeight: activeBorough === null ? 600 : 500,
+              fontSize: 13,
+            }}
+          >
+            <input
+              type="radio"
+              name="borough"
+              checked={activeBorough === null}
+              onChange={() => onBoroughChange(null)}
+              className="accent-amber-400"
+            />
+            <span className="flex-1">All</span>
+          </label>
+          {BOROUGHS.map((b) => {
+            const count = boroughCounts[b] ?? 0;
+            return (
+              <label
+                key={b}
+                className="flex items-center gap-2 rounded-md cursor-pointer transition"
+                style={{
+                  height: 32,
+                  paddingLeft: 8,
+                  paddingRight: 8,
+                  color: activeBorough === b ? "#fff" : "var(--text-secondary)",
+                  fontWeight: activeBorough === b ? 600 : 500,
+                  fontSize: 13,
+                }}
+              >
+                <input
+                  type="radio"
+                  name="borough"
+                  checked={activeBorough === b}
+                  onChange={() => onBoroughChange(b)}
+                  className="accent-amber-400"
+                />
+                <span className="flex-1">{b}</span>
+                <span style={{ color: "var(--text-muted)", fontSize: 12 }}>{count}</span>
+              </label>
+            );
+          })}
+        </div>
+
+        <div className="border-t" style={{ borderColor: "var(--border)", margin: "16px 0" }} />
+
         {/* Categories header */}
         <h2
           style={{

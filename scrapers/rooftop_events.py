@@ -39,6 +39,26 @@ def fetch(url):
     return None
 
 
+def fetch_playwright(url, wait_selector="body", timeout_ms=20000):
+    """Fetch a JS-rendered page using Playwright."""
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page(user_agent=USER_AGENT)
+            page.goto(url, wait_until="networkidle", timeout=timeout_ms)
+            try:
+                page.wait_for_selector(wait_selector, timeout=8000)
+            except Exception:
+                pass
+            html = page.content()
+            browser.close()
+            return BeautifulSoup(html, "lxml")
+    except Exception as e:
+        logger.warning(f"Playwright fetch failed for {url}: {e}")
+    return None
+
+
 def parse_date_safe(text):
     if not text:
         return None
@@ -51,6 +71,27 @@ def parse_date_safe(text):
     return None
 
 
+def classify_borough(venue, neighborhood):
+    text = f"{venue or ''} {neighborhood or ''}".lower()
+    if "brooklyn" in text:
+        return "Brooklyn"
+    if "queens" in text:
+        return "Queens"
+    if "bronx" in text or "yankee stadium" in text:
+        return "Bronx"
+    if "staten island" in text:
+        return "Staten Island"
+    brooklyn_kw = ["williamsburg", "bushwick", "greenpoint", "dumbo", "park slope",
+                   "cobble hill", "fort greene", "prospect", "barclays", "brooklyn steel",
+                   "brooklyn bowl", "brooklyn mirage", "brooklyn museum", "coney island"]
+    if any(n in text for n in brooklyn_kw):
+        return "Brooklyn"
+    queens_kw = ["astoria", "long island city", "flushing", "citi field", "usta", "rockaway"]
+    if any(n in text for n in queens_kw):
+        return "Queens"
+    return "Manhattan"
+
+
 def make_event(title, date_str, time_str=None, end_time=None, venue="",
                neighborhood="", cost="", is_free=False, url="",
                description="", source="", is_featured=False):
@@ -61,6 +102,7 @@ def make_event(title, date_str, time_str=None, end_time=None, venue="",
         "end_time": end_time,
         "venue": venue,
         "neighborhood": neighborhood,
+        "borough": classify_borough(venue, neighborhood),
         "category": "Rooftop",
         "cost": cost,
         "is_free": is_free,
@@ -76,77 +118,92 @@ def make_event(title, date_str, time_str=None, end_time=None, venue="",
 def scrape_pier17():
     logger.info("  Scraping Pier 17...")
     events = []
-    for url in ["https://rooftopatpier17.com/line-up/", "https://rooftopatpier17.com/concerts/"]:
-        soup = fetch(url)
-        if not soup:
+
+    # Pier 17 is a JS-rendered site, use Playwright
+    soup = fetch_playwright(
+        "https://rooftopatpier17.com/line-up/",
+        wait_selector="[class*=event]",
+    )
+    if not soup:
+        logger.warning("    Pier 17: Playwright failed")
+        return events
+
+    # Find unique event page links
+    seen_urls = set()
+    event_links = soup.select("a[href*='/events/']")
+
+    for link in event_links:
+        href = link.get("href", "")
+        if not href or href in seen_urls or href == "/events/":
+            continue
+        if not href.startswith("http"):
+            href = f"https://rooftopatpier17.com{href}"
+        # Skip ticket links (axs.com)
+        if "axs.com" in href:
+            continue
+        seen_urls.add(href)
+
+        # Get the parent card container
+        card = link
+        for _ in range(5):
+            parent = card.parent
+            if not parent:
+                break
+            text = parent.get_text(" | ", strip=True)
+            if re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', text):
+                card = parent
+                break
+            card = parent
+
+        text = card.get_text(" | ", strip=True)
+        dt = parse_date_safe(text)
+        if not dt:
             continue
 
-        # JSON-LD
-        for script in soup.find_all("script", type="application/ld+json"):
-            try:
-                data = json.loads(script.string)
-                items = data if isinstance(data, list) else [data]
-                for item in items:
-                    if item.get("@type") in ("Event", "MusicEvent"):
-                        dt = parse_date_safe(item.get("startDate", ""))
-                        if not dt:
-                            continue
-                        name = item.get("name", "")
-                        ev_url = item.get("url", url)
-                        desc = item.get("description", "")
-                        sold = "sold out" in (name + desc).lower()
-                        events.append(make_event(
-                            title=name,
-                            date_str=dt.strftime("%Y-%m-%d"),
-                            time_str=dt.strftime("%I:%M %p").lstrip("0") if dt.hour else None,
-                            venue="The Rooftop at Pier 17",
-                            neighborhood="Lower Manhattan",
-                            cost="Sold Out" if sold else "",
-                            url=ev_url,
-                            description=desc,
-                            source="pier17",
-                            is_featured=True,
-                        ))
-            except (json.JSONDecodeError, TypeError):
+        # Extract title: typically the artist name is near the top of the card
+        # Pattern: "Presents | ARTIST NAME | Date" or "ARTIST NAME | Tour Name | Date"
+        parts = [p.strip() for p in text.split("|") if p.strip()]
+        title = ""
+        for part in parts:
+            # Skip common non-title parts
+            if any(skip in part.lower() for skip in (
+                "present", "sold out", "outdoor", "indoor", "event info",
+                "buy ticket", "2026", "2025", "sat,", "sun,", "mon,",
+                "tue,", "wed,", "thu,", "fri,", "sort by",
+            )):
                 continue
+            if len(part) > 3 and not title:
+                title = part
+                break
 
-        # HTML fallback
-        if not events:
-            for card in soup.select("article, .event-card, .event, .show-card, a[href*='/events/']"):
-                title_el = card.select_one("h2, h3, h4, .title")
-                if not title_el:
-                    title_el = card
-                title = title_el.get_text(strip=True)
-                if not title or len(title) < 3:
-                    continue
+        if not title or len(title) < 2:
+            continue
 
-                link = card.find("a", href=True)
-                ev_url = ""
-                if link:
-                    href = link["href"]
-                    ev_url = href if href.startswith("http") else f"https://rooftopatpier17.com{href}"
+        sold = "sold out" in text.lower()
+        events.append(make_event(
+            title=title,
+            date_str=dt.strftime("%Y-%m-%d"),
+            time_str="7:00 PM",  # Default Pier 17 start time
+            end_time="11:00 PM",
+            venue="The Rooftop at Pier 17",
+            neighborhood="Lower Manhattan",
+            cost="Sold Out" if sold else "",
+            url=href,
+            source="pier17",
+            is_featured=True,
+        ))
 
-                text = card.get_text(" ", strip=True)
-                dt = parse_date_safe(text)
-                if not dt:
-                    continue
+    # Deduplicate by title (same event can appear multiple times in DOM)
+    unique = []
+    seen_titles = set()
+    for ev in events:
+        key = (ev["title"].lower(), ev["date"])
+        if key not in seen_titles:
+            seen_titles.add(key)
+            unique.append(ev)
 
-                sold = "sold out" in text.lower()
-                events.append(make_event(
-                    title=title,
-                    date_str=dt.strftime("%Y-%m-%d"),
-                    venue="The Rooftop at Pier 17",
-                    neighborhood="Lower Manhattan",
-                    cost="Sold Out" if sold else "",
-                    url=ev_url,
-                    source="pier17",
-                    is_featured=True,
-                ))
-
-        time.sleep(2)
-
-    logger.info(f"    Pier 17: {len(events)} events")
-    return events
+    logger.info(f"    Pier 17: {len(unique)} events")
+    return unique
 
 
 # ── Source 2: Marquee Skydeck at Edge ──────────────────────
@@ -154,58 +211,59 @@ def scrape_pier17():
 def scrape_edge():
     logger.info("  Scraping Edge/Marquee...")
     events = []
-    soup = fetch("https://www.edgenyc.com/marquee-skydeck/")
+
+    # Edge is JS-rendered, always use Playwright
+    soup = fetch_playwright(
+        "https://www.edgenyc.com/marquee-skydeck/",
+        wait_selector="h3",
+    )
     if not soup:
+        logger.warning("    Edge: Playwright failed")
         return events
 
-    # JSON-LD
-    for script in soup.find_all("script", type="application/ld+json"):
-        try:
-            data = json.loads(script.string)
-            items = data if isinstance(data, list) else [data]
-            for item in items:
-                if item.get("@type") in ("Event", "MusicEvent", "DanceEvent"):
-                    dt = parse_date_safe(item.get("startDate", ""))
-                    if not dt:
-                        continue
-                    events.append(make_event(
-                        title=item.get("name", ""),
-                        date_str=dt.strftime("%Y-%m-%d"),
-                        time_str="11:00 PM",
-                        end_time="3:00 AM",
-                        venue="Marquee Skydeck at Edge",
-                        neighborhood="Hudson Yards",
-                        cost=item.get("offers", {}).get("price", "$65+") if isinstance(item.get("offers"), dict) else "$65+",
-                        url=item.get("url", "https://www.edgenyc.com/marquee-skydeck/"),
-                        description=f"{item.get('description', '')} 21+.",
-                        source="edge",
-                    ))
-        except (json.JSONDecodeError, TypeError):
+    # h3 elements contain "Marquee Skydeck: ARTIST NAME"
+    seen = set()
+    for h3 in soup.find_all("h3"):
+        text = h3.get_text(strip=True)
+        if "marquee skydeck" not in text.lower():
             continue
 
-    # HTML fallback
-    if not events:
-        for card in soup.select("article, .event, [class*='event'], [class*='lineup']"):
-            text = card.get_text(" ", strip=True)
-            dt = parse_date_safe(text)
-            if not dt:
-                continue
-            title_el = card.select_one("h2, h3, h4, strong")
-            title = title_el.get_text(strip=True) if title_el else text[:60]
-            if len(title) < 3:
-                continue
-            events.append(make_event(
-                title=title,
-                date_str=dt.strftime("%Y-%m-%d"),
-                time_str="11:00 PM",
-                end_time="3:00 AM",
-                venue="Marquee Skydeck at Edge",
-                neighborhood="Hudson Yards",
-                cost="$65+",
-                url="https://www.edgenyc.com/marquee-skydeck/",
-                description="21+.",
-                source="edge",
-            ))
+        # Extract artist name
+        title = re.sub(r'^Marquee Skydeck:\s*', '', text, flags=re.IGNORECASE).strip()
+        if not title or len(title) < 2:
+            continue
+
+        # Walk up to find date context
+        parent = h3.parent
+        context = ""
+        for _ in range(5):
+            if parent:
+                context = parent.get_text(" ", strip=True)
+                if re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', context):
+                    break
+                parent = parent.parent
+
+        dt = parse_date_safe(context)
+        if not dt:
+            continue
+
+        key = (title.lower(), dt.strftime("%Y-%m-%d"))
+        if key in seen:
+            continue
+        seen.add(key)
+
+        events.append(make_event(
+            title=title,
+            date_str=dt.strftime("%Y-%m-%d"),
+            time_str="11:00 PM",
+            end_time="3:00 AM",
+            venue="Marquee Skydeck at Edge",
+            neighborhood="Hudson Yards",
+            cost="$65+",
+            url="https://www.edgenyc.com/marquee-skydeck/",
+            description="100th floor. 21+.",
+            source="edge",
+        ))
 
     logger.info(f"    Edge: {len(events)} events")
     return events
@@ -458,6 +516,7 @@ def push_to_supabase(events):
                 "end_time": ev.get("end_time"),
                 "venue": ev["venue"],
                 "neighborhood": ev.get("neighborhood"),
+                "borough": ev.get("borough", classify_borough(ev.get("venue"), ev.get("neighborhood"))),
                 "category": "Rooftop",
                 "cost": ev.get("cost"),
                 "is_free": ev.get("is_free", False),
