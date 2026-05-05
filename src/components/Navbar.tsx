@@ -19,6 +19,7 @@ export default function Navbar({
   const pathname = usePathname();
 
   const isEventsPage = pathname === "/events";
+  const isHappyHoursPage = pathname === "/happy-hours";
 
   return (
     <nav
@@ -60,16 +61,18 @@ export default function Navbar({
           >
             Events
           </Link>
-          <span
-            className="px-3 py-1.5 cursor-default"
+          <Link
+            href="/happy-hours"
+            className="px-3 py-1.5 transition-colors"
             style={{
               fontSize: 13,
               fontWeight: 500,
-              color: "var(--text-muted)",
+              color: isHappyHoursPage ? "#fff" : "var(--text-secondary)",
+              borderBottom: isHappyHoursPage ? "2px solid var(--gold)" : "2px solid transparent",
             }}
           >
             Happy Hours
-          </span>
+          </Link>
         </div>
 
         <div className="flex-1" />
@@ -167,9 +170,13 @@ export default function Navbar({
             >
               Events
             </Link>
-            <span style={{ color: "var(--text-muted)", fontSize: 14 }}>
+            <Link
+              href="/happy-hours"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ color: "var(--text)", fontSize: 14, fontWeight: 500 }}
+            >
               Happy Hours
-            </span>
+            </Link>
             <Link
               href="/subscribe"
               onClick={() => setMobileMenuOpen(false)}

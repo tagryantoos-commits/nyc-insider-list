@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import CategoryCarousel from "./CategoryCarousel";
+import HappyHourCarousel from "./HappyHourCarousel";
 import SubscribeCTA from "./SubscribeCTA";
 
 export default function MagazineHome({ events }: { events: Event[] }) {
@@ -54,7 +55,22 @@ export default function MagazineHome({ events }: { events: Event[] }) {
       <Hero eventCount={futureEvents.length} />
 
       <div className="mx-auto max-w-[1200px] py-8">
-        {sections.map((section) => (
+        {sections.slice(0, 3).map((section) => (
+          <CategoryCarousel
+            key={section.category}
+            prefix={section.prefix}
+            label={section.label}
+            categoryKey={section.category}
+            events={section.events}
+            numbered={section.numbered ?? false}
+            invertLabel={section.invertLabel ?? false}
+          />
+        ))}
+
+        {/* Happy Hours carousel between event sections */}
+        <HappyHourCarousel />
+
+        {sections.slice(3).map((section) => (
           <CategoryCarousel
             key={section.category}
             prefix={section.prefix}
