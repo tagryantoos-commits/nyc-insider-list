@@ -222,28 +222,42 @@ def scrape_edge():
         return events
 
     # h3 elements contain "Marquee Skydeck: ARTIST NAME"
+    # Date is in sibling elements, and descriptions have dates embedded.
+    # Walk up to level 4 (the card container) which has the full text.
     seen = set()
     for h3 in soup.find_all("h3"):
         text = h3.get_text(strip=True)
         if "marquee skydeck" not in text.lower():
             continue
 
-        # Extract artist name
         title = re.sub(r'^Marquee Skydeck:\s*', '', text, flags=re.IGNORECASE).strip()
+        # Clean up [Club Set] etc
+        title = title.replace("[Club Set]", "(Club Set)").strip()
         if not title or len(title) < 2:
             continue
 
-        # Walk up to find date context
-        parent = h3.parent
-        context = ""
+        # Walk up to find the card with the date (level 2 typically has ~214 chars)
+        card_text = h3.get_text(" ", strip=True)
+        node = h3
         for _ in range(5):
-            if parent:
-                context = parent.get_text(" ", strip=True)
-                if re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)', context):
-                    break
-                parent = parent.parent
+            if not node.parent:
+                break
+            node = node.parent
+            pt = node.get_text(" ", strip=True)
+            if len(pt) > 50 and len(pt) < 500:
+                card_text = pt
+                break
 
-        dt = parse_date_safe(context)
+        # Look for explicit date pattern: "May 2, 2026" or "Friday, May 2"
+        date_match = re.search(
+            r'(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\w*,?\s+)?'
+            r'((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2}(?:,?\s+\d{4})?)',
+            card_text,
+        )
+        if not date_match:
+            continue
+
+        dt = parse_date_safe(date_match.group(1))
         if not dt:
             continue
 
@@ -251,6 +265,12 @@ def scrape_edge():
         if key in seen:
             continue
         seen.add(key)
+
+        # Extract description snippet
+        desc = ""
+        desc_match = re.search(r'(?:Marquee Skydeck:\s*' + re.escape(title) + r')\s*(.*?)(?:\d{4}|$)', card_text)
+        if desc_match:
+            desc = desc_match.group(1).strip()[:200]
 
         events.append(make_event(
             title=title,
@@ -261,7 +281,7 @@ def scrape_edge():
             neighborhood="Hudson Yards",
             cost="$65+",
             url="https://www.edgenyc.com/marquee-skydeck/",
-            description="100th floor. 21+.",
+            description=f"{desc} 100th floor. 21+." if desc else "100th floor. 21+.",
             source="edge",
         ))
 
