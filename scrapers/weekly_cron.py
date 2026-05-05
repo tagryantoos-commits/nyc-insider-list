@@ -123,7 +123,16 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Kid-friendly scraper failed: {e}", exc_info=True)
         results["kid_friendly"] = {"error": str(e)}
 
-    # 3. Happy hour enricher
+    # 3. Museum events
+    try:
+        logger.info("\n--- Step 3: Museum Events ---")
+        from museum_events import scrape_all_museum_events
+        results["museums"] = scrape_all_museum_events()
+    except Exception as e:
+        logger.error(f"Museum scraper failed: {e}", exc_info=True)
+        results["museums"] = {"error": str(e)}
+
+    # 4. Happy hour enricher
     try:
         logger.info("\n--- Step 3: Happy Hour Enricher ---")
         from hh_website_enricher import enrich
