@@ -114,9 +114,18 @@ def run_weekly(rooftop_only=False):
         logger.info(f"{'='*60}")
         return results
 
-    # 2. Happy hour enricher
+    # 2. Kid-friendly events
     try:
-        logger.info("\n--- Step 2: Happy Hour Enricher ---")
+        logger.info("\n--- Step 2: Kid-Friendly Events ---")
+        from kid_friendly_events import scrape_all_kid_events
+        results["kid_friendly"] = scrape_all_kid_events()
+    except Exception as e:
+        logger.error(f"Kid-friendly scraper failed: {e}", exc_info=True)
+        results["kid_friendly"] = {"error": str(e)}
+
+    # 3. Happy hour enricher
+    try:
+        logger.info("\n--- Step 3: Happy Hour Enricher ---")
         from hh_website_enricher import enrich
         enriched = enrich()
         results["happy_hours"] = {"enriched": enriched}
