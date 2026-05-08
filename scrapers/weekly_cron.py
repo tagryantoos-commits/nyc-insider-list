@@ -159,9 +159,18 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Free events scraper failed: {e}", exc_info=True)
         results["free_events"] = {"error": str(e)}
 
-    # 7. External scrapers (sports, concerts, festivals)
+    # 7. All NYC sports (MLB, NBA, NHL, WNBA, MLS)
     try:
-        logger.info("\n--- Step 7: External Scrapers (Sports/Concerts/Festivals) ---")
+        logger.info("\n--- Step 7: Sports (All NYC Teams) ---")
+        from sports_events import scrape_all_sports
+        results["sports"] = scrape_all_sports()
+    except Exception as e:
+        logger.error(f"Sports scraper failed: {e}", exc_info=True)
+        results["sports"] = {"error": str(e)}
+
+    # 7b. External scrapers (concerts, festivals)
+    try:
+        logger.info("\n--- Step 7b: External Scrapers (Concerts/Festivals) ---")
         from run_external_scrapers import run_all_external
         results["external"] = run_all_external()
     except Exception as e:
