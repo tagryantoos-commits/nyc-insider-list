@@ -141,9 +141,18 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Comedy scraper failed: {e}", exc_info=True)
         results["comedy"] = {"error": str(e)}
 
-    # 5. Happy hour enricher
+    # 5. External scrapers (sports, concerts, festivals)
     try:
-        logger.info("\n--- Step 3: Happy Hour Enricher ---")
+        logger.info("\n--- Step 5: External Scrapers (Sports/Concerts/Festivals) ---")
+        from run_external_scrapers import run_all_external
+        results["external"] = run_all_external()
+    except Exception as e:
+        logger.error(f"External scrapers failed: {e}", exc_info=True)
+        results["external"] = {"error": str(e)}
+
+    # 6. Happy hour enricher
+    try:
+        logger.info("\n--- Step 6: Happy Hour Enricher ---")
         from hh_website_enricher import enrich
         enriched = enrich()
         results["happy_hours"] = {"enriched": enriched}
@@ -151,7 +160,7 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Happy hour enricher failed: {e}", exc_info=True)
         results["happy_hours"] = {"error": str(e)}
 
-    # 3. Cleanup past events
+    # 7. Cleanup past events
     try:
         logger.info("\n--- Step 3: Cleanup Past Events ---")
         results["cleanup"] = cleanup_all_past_events()

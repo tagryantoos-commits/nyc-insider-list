@@ -218,11 +218,9 @@ export default function EventCard({
               {event.borough}
             </p>
           )}
-          {event.url && (
+          <div className="flex items-center gap-2">
             <a
-              href={event.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/events/${event.id}`}
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-1.5 rounded-md transition hover:opacity-80"
               style={{
@@ -233,9 +231,27 @@ export default function EventCard({
                 color: "#0a0a0f",
               }}
             >
-              Get Tickets <ExternalLink style={{ width: 12, height: 12 }} />
+              View Details
             </a>
-          )}
+            {event.url && (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 rounded-md border transition hover:opacity-80"
+                style={{
+                  padding: "6px 14px",
+                  fontSize: 12,
+                  fontWeight: 500,
+                  borderColor: "var(--border)",
+                  color: "var(--text-secondary)",
+                }}
+              >
+                Tickets <ExternalLink style={{ width: 12, height: 12 }} />
+              </a>
+            )}
+          </div>
         </div>
       )}
     </div>
