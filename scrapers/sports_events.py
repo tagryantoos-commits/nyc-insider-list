@@ -106,6 +106,14 @@ def scrape_mlb(team_key):
                         pass
 
                 title = f"{team['name']} vs {away.get('name', 'TBD')}"
+                # Doubleheader: append game number to avoid duplicate titles
+                game_num = game.get("gameNumber", 1)
+                same_day = sum(
+                    1 for e in events
+                    if e["title"] == title and e["date"] == game_date[:10]
+                )
+                if game_num > 1 or same_day > 0:
+                    title += f" (Game {same_day + 1})"
                 events.append(make_event(
                     title=title,
                     date_str=game_date[:10],
