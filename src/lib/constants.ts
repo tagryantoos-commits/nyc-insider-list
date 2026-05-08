@@ -10,6 +10,7 @@ export const CATEGORIES = [
   { key: "Festival", label: "Festivals", color: "#f87171" },
   { key: "Free Event", label: "Free", color: "#22c55e" },
   { key: "Kid-Friendly", label: "Kid-Friendly", color: "#06b6d4" },
+  { key: "Comedy", label: "Comedy", color: "#f59e0b" },
   { key: "Sports", label: "Sports", color: "#fb923c" },
   { key: "Film", label: "Film", color: "#818cf8" },
   { key: "Other", label: "Other", color: "#5a5a64" },
@@ -38,5 +39,6 @@ export const HOMEPAGE_SECTIONS: HomepageSection[] = [
   { category: "Festival", prefix: "Featured", label: "FESTIVALS" },
   { category: "Free Event", prefix: "FREE", label: "This Week", invertLabel: true },
   { category: "Kid-Friendly", prefix: "Family-Friendly", label: "THIS WEEK", invertLabel: true },
+  { category: "Comedy", prefix: "Tonight's", label: "COMEDY" },
   { category: "Museum", prefix: "Coming Soon", label: "MUSEUMS" },
 ];
