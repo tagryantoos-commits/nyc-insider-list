@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getCategoryMeta } from "@/lib/constants";
 import type { Event } from "@/lib/types";
 import { format, parseISO, isToday } from "date-fns";
-import { Heart, Share2, ExternalLink } from "lucide-react";
+import { Heart, Share2, ExternalLink, Lock, Star } from "lucide-react";
 
 function isHappeningNow(event: Event): boolean {
   if (!isToday(parseISO(event.date))) return false;
@@ -26,10 +26,16 @@ export default function EventCard({
   event,
   isSaved,
   onToggleSave,
+  isGated,
+  isInsiderPick,
+  onGatedClick,
 }: {
   event: Event;
   isSaved?: boolean;
   onToggleSave?: (id: string) => void;
+  isGated?: boolean;
+  isInsiderPick?: boolean;
+  onGatedClick?: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [showCopied, setShowCopied] = useState(false);
@@ -83,8 +89,11 @@ export default function EventCard({
 
   return (
     <div
-      className="group rounded-lg border transition-all duration-150 cursor-pointer"
-      onClick={() => setExpanded(!expanded)}
+      className="group rounded-lg border transition-all duration-150 cursor-pointer relative"
+      onClick={() => {
+        if (isGated) { onGatedClick?.(); return; }
+        setExpanded(!expanded);
+      }}
       style={{
         background: "var(--bg-card)",
         borderColor: expanded ? "var(--border-hover)" : "var(--border)",
@@ -128,6 +137,12 @@ export default function EventCard({
                 animation: "live-pulse 1.5s ease-in-out infinite",
               }} />
               LIVE
+            </span>
+          )}
+          {isInsiderPick && (
+            <span className="flex items-center gap-0.5" style={{ fontSize: 10, fontWeight: 600, color: "var(--gold)" }}>
+              <Star style={{ width: 10, height: 10, fill: "var(--gold)" }} />
+              PICK
             </span>
           )}
         </div>
@@ -195,13 +210,26 @@ export default function EventCard({
           fontWeight: 400,
           color: "var(--text-secondary)",
           marginTop: 4,
+          filter: isGated ? "blur(4px)" : "none",
+          userSelect: isGated ? "none" : "auto",
         }}
       >
         {metaParts.join(" \u00B7 ")}
       </p>
 
+      {/* Gated lock overlay */}
+      {isGated && (
+        <div
+          className="flex items-center gap-1.5 mt-2"
+          style={{ color: "var(--gold)", fontSize: 11, fontWeight: 600 }}
+        >
+          <Lock style={{ width: 12, height: 12 }} />
+          <span>Subscribe to unlock details</span>
+        </div>
+      )}
+
       {/* Expanded details */}
-      {expanded && (
+      {expanded && !isGated && (
         <div style={{ marginTop: 12, paddingTop: 10, borderTop: "1px solid var(--border)" }}>
           {event.description && (
             <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: 8 }}>

@@ -1,13 +1,22 @@
+"use client";
+
 import { getCategoryMeta } from "@/lib/constants";
 import type { Event } from "@/lib/types";
 import { format, parseISO } from "date-fns";
+import { Lock, Star } from "lucide-react";
 
 export default function CarouselCard({
   event,
   rank,
+  isGated,
+  isInsiderPick,
+  onGatedClick,
 }: {
   event: Event;
   rank?: number;
+  isGated?: boolean;
+  isInsiderPick?: boolean;
+  onGatedClick?: () => void;
 }) {
   const meta = getCategoryMeta(event.category);
   const isSoldOut =
@@ -23,18 +32,26 @@ export default function CarouselCard({
     priceLabel = "Free";
     priceColor = "var(--free)";
   } else if (event.cost) {
-    priceLabel = event.cost;
+    priceLabel = isGated ? "$ ---" : event.cost;
     priceColor = "var(--gold)";
   }
 
   const dateStr = format(parseISO(event.date), "EEE, MMM d");
-  const timeStr = event.time ? ` \u00B7 ${event.time}` : "";
+  const timeStr = isGated ? "" : (event.time ? ` \u00B7 ${event.time}` : "");
+
+  function handleClick(e: React.MouseEvent) {
+    if (isGated) {
+      e.preventDefault();
+      onGatedClick?.();
+    }
+  }
 
   return (
     <a
-      href={event.url ?? "#"}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={isGated ? "#" : (event.url ?? "#")}
+      target={isGated ? undefined : "_blank"}
+      rel={isGated ? undefined : "noopener noreferrer"}
+      onClick={handleClick}
       className="group relative block shrink-0 rounded-lg border transition-all duration-150"
       style={{
         width: 240,
@@ -78,6 +95,24 @@ export default function CarouselCard({
         </span>
       )}
 
+      {/* Insider Pick badge */}
+      {isInsiderPick && (
+        <span
+          className="absolute flex items-center gap-0.5 rounded-full px-1.5 py-0.5"
+          style={{
+            top: -6,
+            right: 8,
+            background: "var(--gold)",
+            color: "#0a0a0f",
+            fontSize: 8,
+            fontWeight: 700,
+            zIndex: 2,
+          }}
+        >
+          <Star style={{ width: 8, height: 8, fill: "#0a0a0f" }} /> PICK
+        </span>
+      )}
+
       {/* Top row: category + price */}
       <div className="flex items-center justify-between">
         <span
@@ -117,19 +152,28 @@ export default function CarouselCard({
 
       {/* Bottom: date + venue */}
       <div className="absolute bottom-3 left-4 right-4">
-        <p
-          className="truncate"
-          style={{ fontSize: 12, color: "var(--text-secondary)" }}
-        >
-          {dateStr}{timeStr}
-        </p>
-        {event.venue && (
-          <p
-            className="truncate"
-            style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}
-          >
-            {event.venue}
-          </p>
+        {isGated ? (
+          <div className="flex items-center gap-1.5" style={{ color: "var(--gold)", fontSize: 11, fontWeight: 600 }}>
+            <Lock style={{ width: 11, height: 11 }} />
+            <span>Subscribe for details</span>
+          </div>
+        ) : (
+          <>
+            <p
+              className="truncate"
+              style={{ fontSize: 12, color: "var(--text-secondary)" }}
+            >
+              {dateStr}{timeStr}
+            </p>
+            {event.venue && (
+              <p
+                className="truncate"
+                style={{ fontSize: 12, color: "var(--text-secondary)", marginTop: 1 }}
+              >
+                {event.venue}
+              </p>
+            )}
+          </>
         )}
       </div>
     </a>

@@ -13,6 +13,9 @@ interface Props {
   numbered?: boolean;
   invertLabel?: boolean;
   viewAllHref?: string;
+  gatedIds?: Set<string>;
+  insiderPickIds?: Set<string>;
+  onGatedClick?: () => void;
 }
 
 export default function CategoryCarousel({
@@ -23,6 +26,9 @@ export default function CategoryCarousel({
   numbered = false,
   invertLabel = false,
   viewAllHref,
+  gatedIds,
+  insiderPickIds,
+  onGatedClick,
 }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -125,6 +131,9 @@ export default function CategoryCarousel({
               key={event.id}
               event={event}
               rank={numbered ? i + 1 : undefined}
+              isGated={gatedIds?.has(event.id)}
+              isInsiderPick={insiderPickIds?.has(event.id)}
+              onGatedClick={onGatedClick}
             />
           ))}
         </div>

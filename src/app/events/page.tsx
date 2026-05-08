@@ -20,19 +20,37 @@ async function getEvents(): Promise<Event[]> {
   }
 }
 
+async function getSubscriberCount(): Promise<number> {
+  try {
+    const supabase = createServiceClient();
+    const { count, error } = await supabase
+      .from("subscribers")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "active");
+    if (error) return 0;
+    return count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 export default async function EventsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; q?: string; borough?: string }>;
 }) {
-  const events = await getEvents();
-  const params = await searchParams;
+  const [events, subscriberCount, params] = await Promise.all([
+    getEvents(),
+    getSubscriberCount(),
+    searchParams,
+  ]);
 
   return (
     <EventExplorer
       events={events}
       initialCategory={params.category ?? null}
       initialSearch={params.q ?? ""}
+      subscriberCount={subscriberCount}
     />
   );
 }

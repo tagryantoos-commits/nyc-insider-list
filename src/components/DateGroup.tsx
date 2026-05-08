@@ -7,11 +7,17 @@ export default function DateGroup({
   events,
   savedIds,
   onToggleSave,
+  gatedIds,
+  insiderPickIds,
+  onGatedClick,
 }: {
   date: string;
   events: Event[];
   savedIds?: Set<string>;
   onToggleSave?: (id: string) => void;
+  gatedIds?: Set<string>;
+  insiderPickIds?: Set<string>;
+  onGatedClick?: () => void;
 }) {
   const formatted = format(parseISO(date), "EEEE, MMMM d");
 
@@ -54,6 +60,9 @@ export default function DateGroup({
             event={e}
             isSaved={savedIds?.has(e.id)}
             onToggleSave={onToggleSave}
+            isGated={gatedIds?.has(e.id)}
+            isInsiderPick={insiderPickIds?.has(e.id)}
+            onGatedClick={onGatedClick}
           />
         ))}
       </div>

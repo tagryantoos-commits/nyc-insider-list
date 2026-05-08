@@ -20,6 +20,7 @@ import MobileFilters from "./MobileFilters";
 import DateGroup from "./DateGroup";
 import EventCard from "./EventCard";
 import SubscribeCTA from "./SubscribeCTA";
+import SubscribeModal from "./SubscribeModal";
 import Footer from "./Footer";
 
 function parsePrice(cost: string | null): number {
@@ -69,10 +70,12 @@ export default function EventExplorer({
   events,
   initialCategory,
   initialSearch,
+  subscriberCount = 0,
 }: {
   events: Event[];
   initialCategory?: string | null;
   initialSearch?: string;
+  subscriberCount?: number;
 }) {
   const [searchQuery, setSearchQuery] = useState(initialSearch ?? "");
   const [activeBorough, setActiveBorough] = useState<string | null>(null);
@@ -84,6 +87,24 @@ export default function EventExplorer({
   const [sortMode, setSortMode] = useState<SortMode>("date");
   const [activeDate, setActiveDate] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  const [showModal, setShowModal] = useState(false);
+
+  // Gated events: more than 7 days from now
+  const gatedIds = useMemo(() => {
+    const gateDate = addDays(startOfDay(new Date()), 7);
+    const ids = new Set<string>();
+    events.forEach((e) => {
+      if (isAfter(parseISO(e.date), gateDate)) ids.add(e.id);
+    });
+    return ids;
+  }, [events]);
+
+  // Insider picks: featured events
+  const insiderPickIds = useMemo(() => {
+    const ids = new Set<string>();
+    events.filter((e) => e.is_featured).forEach((e) => ids.add(e.id));
+    return ids;
+  }, [events]);
 
   // Load saved events from localStorage
   useEffect(() => {
@@ -377,6 +398,9 @@ export default function EventExplorer({
                       event={e}
                       isSaved={savedIds.has(e.id)}
                       onToggleSave={toggleSave}
+                      isGated={gatedIds.has(e.id)}
+                      isInsiderPick={insiderPickIds.has(e.id)}
+                      onGatedClick={() => setShowModal(true)}
                     />
                   ))}
                 </div>
@@ -388,6 +412,9 @@ export default function EventExplorer({
                     events={evts}
                     savedIds={savedIds}
                     onToggleSave={toggleSave}
+                    gatedIds={gatedIds}
+                    insiderPickIds={insiderPickIds}
+                    onGatedClick={() => setShowModal(true)}
                   />
                 ))
               )}
@@ -405,8 +432,16 @@ export default function EventExplorer({
         </main>
       </div>
 
-      <SubscribeCTA />
+      <SubscribeCTA subscriberCount={subscriberCount} onSubscribeClick={() => setShowModal(true)} />
       <Footer />
+
+      <SubscribeModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        events={events}
+        gatedEventCount={gatedIds.size}
+        subscriberCount={subscriberCount}
+      />
     </>
   );
 }

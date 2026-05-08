@@ -20,7 +20,24 @@ async function getEvents(): Promise<Event[]> {
   }
 }
 
+async function getSubscriberCount(): Promise<number> {
+  try {
+    const supabase = createServiceClient();
+    const { count, error } = await supabase
+      .from("subscribers")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "active");
+    if (error) return 0;
+    return count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 export default async function HomePage() {
-  const events = await getEvents();
-  return <MagazineHome events={events} />;
+  const [events, subscriberCount] = await Promise.all([
+    getEvents(),
+    getSubscriberCount(),
+  ]);
+  return <MagazineHome events={events} subscriberCount={subscriberCount} />;
 }
