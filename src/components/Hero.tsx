@@ -95,7 +95,7 @@ export default function Hero({
           letterSpacing: "0.02em",
         }}
       >
-        {eventCount} events &nbsp;&middot;&nbsp; 10 categories &nbsp;&middot;&nbsp;
+        {eventCount.toLocaleString()} events &nbsp;&middot;&nbsp; 10 categories &nbsp;&middot;&nbsp;
         {addedThisWeek > 0 ? (
           <span> {addedThisWeek} added this week</span>
         ) : (
