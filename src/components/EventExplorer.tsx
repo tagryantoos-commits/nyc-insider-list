@@ -315,6 +315,23 @@ export default function EventExplorer({
         <main className="flex-1 min-w-0 px-4 py-5 lg:px-6">
           {/* Date chips */}
           <div className="flex gap-1.5 mb-4 overflow-x-auto hide-scrollbar pb-1">
+            <button
+              onClick={() => {
+                setActiveDate(null);
+                setTimeFilter("all");
+              }}
+              className="shrink-0 rounded-md transition"
+              style={{
+                padding: "5px 12px",
+                fontSize: 12,
+                fontWeight: activeDate === null && timeFilter === "all" ? 700 : 500,
+                background: activeDate === null && timeFilter === "all" ? "var(--gold)" : "var(--bg-card)",
+                color: activeDate === null && timeFilter === "all" ? "#0a0a0f" : "var(--text-secondary)",
+                border: `1px solid ${activeDate === null && timeFilter === "all" ? "var(--gold)" : "var(--border)"}`,
+              }}
+            >
+              All Events
+            </button>
             {dateChips.map((chip) => {
               const dateStr = format(chip.date, "yyyy-MM-dd");
               const isActive = activeDate === dateStr;
@@ -324,6 +341,7 @@ export default function EventExplorer({
                   onClick={() => {
                     setActiveDate(isActive ? null : dateStr);
                     if (!isActive) setTimeFilter("all");
+                    if (isActive) setActiveDate(null);
                   }}
                   className="shrink-0 rounded-md transition"
                   style={{
