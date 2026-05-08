@@ -16,6 +16,13 @@ export async function GET(request: NextRequest) {
   const supabase = createServiceClient();
   let query = supabase.from("events").select("*").order("date", { ascending: true });
 
+  // Filter out past events by default
+  const includePast = searchParams.get("include_past") === "true";
+  if (!includePast && !from) {
+    const today = new Date().toISOString().slice(0, 10);
+    query = query.gte("date", today);
+  }
+
   if (category) query = query.eq("category", category);
   if (borough) query = query.eq("borough", borough);
   if (free === "true") query = query.eq("is_free", true);
