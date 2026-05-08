@@ -141,18 +141,36 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Comedy scraper failed: {e}", exc_info=True)
         results["comedy"] = {"error": str(e)}
 
-    # 5. External scrapers (sports, concerts, festivals)
+    # 5. Broadway shows
     try:
-        logger.info("\n--- Step 5: External Scrapers (Sports/Concerts/Festivals) ---")
+        logger.info("\n--- Step 5: Broadway Shows ---")
+        from broadway_events import scrape_all_broadway
+        results["broadway"] = scrape_all_broadway()
+    except Exception as e:
+        logger.error(f"Broadway scraper failed: {e}", exc_info=True)
+        results["broadway"] = {"error": str(e)}
+
+    # 6. Free events (recurring free nights + Eventbrite free)
+    try:
+        logger.info("\n--- Step 6: Free Events ---")
+        from free_events import scrape_all_free_events
+        results["free_events"] = scrape_all_free_events()
+    except Exception as e:
+        logger.error(f"Free events scraper failed: {e}", exc_info=True)
+        results["free_events"] = {"error": str(e)}
+
+    # 7. External scrapers (sports, concerts, festivals)
+    try:
+        logger.info("\n--- Step 7: External Scrapers (Sports/Concerts/Festivals) ---")
         from run_external_scrapers import run_all_external
         results["external"] = run_all_external()
     except Exception as e:
         logger.error(f"External scrapers failed: {e}", exc_info=True)
         results["external"] = {"error": str(e)}
 
-    # 6. Happy hour enricher
+    # 8. Happy hour enricher
     try:
-        logger.info("\n--- Step 6: Happy Hour Enricher ---")
+        logger.info("\n--- Step 8: Happy Hour Enricher ---")
         from hh_website_enricher import enrich
         enriched = enrich()
         results["happy_hours"] = {"enriched": enriched}
@@ -160,7 +178,7 @@ def run_weekly(rooftop_only=False):
         logger.error(f"Happy hour enricher failed: {e}", exc_info=True)
         results["happy_hours"] = {"error": str(e)}
 
-    # 7. Cleanup past events
+    # 9. Cleanup past events
     try:
         logger.info("\n--- Step 3: Cleanup Past Events ---")
         results["cleanup"] = cleanup_all_past_events()
