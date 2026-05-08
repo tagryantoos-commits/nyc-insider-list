@@ -362,46 +362,74 @@ def scrape_nhl_espn(team_key):
 # ── MLS ────────────────────────────────────────────────────
 
 def scrape_mls(team_key):
+    """Scrape MLS schedule using ESPN scoreboard API (day-by-day).
+
+    ESPN's MLS team schedule endpoint only returns past results.
+    The scoreboard endpoint returns future fixtures for specific dates.
+    We check every day in the 90-day window.
+    """
     team = TEAMS[team_key]
     logger.info(f"    MLS: {team['name']}...")
     events = []
 
-    espn_abbrevs = {"nycfc": "nyc", "redbulls": "rbny"}
-    abbrev = espn_abbrevs.get(team_key, "")
-    if not abbrev:
+    espn_ids = {"nycfc": "17606", "redbulls": "190"}
+    team_espn_id = espn_ids.get(team_key, "")
+    if not team_espn_id:
         return events
 
     try:
-        url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/teams/{abbrev}/schedule"
-        resp = http_requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=15)
-        data = resp.json()
+        # Check each day in the range (ESPN MLS scoreboard is date-specific)
+        checked = 0
+        d = TODAY
+        end = TODAY + timedelta(days=90)
+        while d <= end:
+            date_str = d.strftime("%Y%m%d")
+            url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/usa.1/scoreboard?dates={date_str}"
+            try:
+                resp = http_requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=10)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    for ev in data.get("events", []):
+                        for comp in ev.get("competitions", []):
+                            competitors = comp.get("competitors", [])
+                            is_home = False
+                            opponent = ""
+                            for c in competitors:
+                                tid = str(c.get("team", {}).get("id", ""))
+                                if tid == team_espn_id and c.get("homeAway") == "home":
+                                    is_home = True
+                                elif c.get("homeAway") == "away":
+                                    opponent = c.get("team", {}).get("displayName", "TBD")
 
-        for event in data.get("events", []):
-            ev_date = event.get("date", "")[:10]
-            if ev_date < DATE_START or ev_date > DATE_END:
-                continue
-            comp = event.get("competitions", [{}])[0] if event.get("competitions") else {}
-            is_home = False
-            opponent = ""
-            for c in comp.get("competitors", []):
-                if c.get("homeAway") == "home":
-                    is_home = True
-                elif c.get("homeAway") == "away":
-                    opponent = c.get("team", {}).get("displayName", "TBD")
-            if not is_home:
-                continue
+                            if is_home:
+                                ev_date = ev.get("date", "")[:10]
+                                time_str = None
+                                if "T" in ev.get("date", ""):
+                                    try:
+                                        dt = datetime.fromisoformat(ev["date"].replace("Z", "+00:00"))
+                                        time_str = dt.strftime("%I:%M %p").lstrip("0")
+                                    except:
+                                        pass
+                                events.append(make_event(
+                                    title=f"{team['name']} vs {opponent}",
+                                    date_str=ev_date,
+                                    time_str=time_str,
+                                    venue=team["venue"],
+                                    hood=team["hood"],
+                                    borough=team["borough"],
+                                    url=f"https://www.mlssoccer.com/clubs/{'new-york-city-football-club' if team_key == 'nycfc' else 'red-bull-new-york'}/schedule",
+                                    desc=f"MLS: {team['name']} vs {opponent}",
+                                    source=f"sports_{team_key}",
+                                ))
+            except:
+                pass
 
-            events.append(make_event(
-                title=f"{team['name']} vs {opponent}",
-                date_str=ev_date,
-                time_str=None,
-                venue=team["venue"],
-                hood=team["hood"],
-                borough=team["borough"],
-                url=f"https://www.mlssoccer.com/club/{team_key}/schedule",
-                desc=f"MLS: {team['name']} vs {opponent}",
-                source=f"sports_{team_key}",
-            ))
+            checked += 1
+            d += timedelta(days=1)
+            # Rate limit: brief pause every 10 requests
+            if checked % 10 == 0:
+                time.sleep(0.5)
+
     except Exception as e:
         logger.warning(f"    MLS {team['name']} error: {e}")
 
