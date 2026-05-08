@@ -135,4 +135,4 @@ export const allTestEvents: Event[] = [
   brooklynEvent,
 ];
 
-export { todayStr, tomorrowStr, nextWeekStr, nextMonthStr };
+export { makeEvent, todayStr, tomorrowStr, nextWeekStr, nextMonthStr };

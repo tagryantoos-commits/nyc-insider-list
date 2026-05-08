@@ -15,7 +15,7 @@ const config: Config = {
       },
     ],
   },
-  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
+  testPathIgnorePatterns: ["/node_modules/", "/.next/", "fixtures\\.ts$"],
 };
 
 export default config;
