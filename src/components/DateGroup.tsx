@@ -5,9 +5,13 @@ import EventCard from "./EventCard";
 export default function DateGroup({
   date,
   events,
+  savedIds,
+  onToggleSave,
 }: {
   date: string;
   events: Event[];
+  savedIds?: Set<string>;
+  onToggleSave?: (id: string) => void;
 }) {
   const formatted = format(parseISO(date), "EEEE, MMMM d");
 
@@ -45,7 +49,12 @@ export default function DateGroup({
 
       <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
         {events.map((e) => (
-          <EventCard key={e.id} event={e} />
+          <EventCard
+            key={e.id}
+            event={e}
+            isSaved={savedIds?.has(e.id)}
+            onToggleSave={onToggleSave}
+          />
         ))}
       </div>
     </div>

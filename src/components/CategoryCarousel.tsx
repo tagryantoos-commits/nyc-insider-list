@@ -12,6 +12,7 @@ interface Props {
   events: Event[];
   numbered?: boolean;
   invertLabel?: boolean;
+  viewAllHref?: string;
 }
 
 export default function CategoryCarousel({
@@ -21,6 +22,7 @@ export default function CategoryCarousel({
   events,
   numbered = false,
   invertLabel = false,
+  viewAllHref,
 }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -38,14 +40,20 @@ export default function CategoryCarousel({
     const el = scrollRef.current;
     if (!el) return;
     el.addEventListener("scroll", updateScrollState, { passive: true });
-    return () => el.removeEventListener("scroll", updateScrollState);
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
   }, [events]);
 
-  function scrollBy(dir: number) {
+  function scrollByAmount(dir: number) {
     scrollRef.current?.scrollBy({ left: dir * 260, behavior: "smooth" });
   }
 
   if (events.length === 0) return null;
+
+  const href = viewAllHref ?? `/events?category=${encodeURIComponent(categoryKey)}`;
 
   return (
     <section className="mb-10">
@@ -65,7 +73,7 @@ export default function CategoryCarousel({
           )}
         </h2>
         <a
-          href={`/events?category=${encodeURIComponent(categoryKey)}`}
+          href={href}
           className="shrink-0 transition-colors hover:opacity-80"
           style={{ fontSize: 13, color: "var(--text-secondary)" }}
         >
@@ -78,19 +86,33 @@ export default function CategoryCarousel({
         {/* Left arrow */}
         {canScrollLeft && (
           <button
-            onClick={() => scrollBy(-1)}
-            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => scrollByAmount(-1)}
+            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 items-center justify-center rounded-full transition-opacity"
             style={{
               width: 36,
               height: 36,
               background: "rgba(20,20,24,0.9)",
               border: "1px solid var(--border-hover)",
               color: "#fff",
-              marginLeft: -18,
+              marginLeft: -4,
+              opacity: 0.7,
             }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.7"; }}
           >
             <ChevronLeft style={{ width: 18, height: 18 }} />
           </button>
+        )}
+
+        {/* Left fade gradient */}
+        {canScrollLeft && (
+          <div
+            className="hidden lg:block absolute left-0 top-0 bottom-0 z-[5] pointer-events-none"
+            style={{
+              width: 40,
+              background: "linear-gradient(90deg, var(--bg) 0%, transparent 100%)",
+            }}
+          />
         )}
 
         {/* Scrollable row */}
@@ -107,19 +129,33 @@ export default function CategoryCarousel({
           ))}
         </div>
 
+        {/* Right fade gradient */}
+        {canScrollRight && (
+          <div
+            className="hidden lg:block absolute right-0 top-0 bottom-0 z-[5] pointer-events-none"
+            style={{
+              width: 60,
+              background: "linear-gradient(270deg, var(--bg) 0%, transparent 100%)",
+            }}
+          />
+        )}
+
         {/* Right arrow */}
         {canScrollRight && (
           <button
-            onClick={() => scrollBy(1)}
-            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => scrollByAmount(1)}
+            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 items-center justify-center rounded-full transition-opacity"
             style={{
               width: 36,
               height: 36,
               background: "rgba(20,20,24,0.9)",
               border: "1px solid var(--border-hover)",
               color: "#fff",
-              marginRight: -18,
+              marginRight: -4,
+              opacity: 0.7,
             }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.7"; }}
           >
             <ChevronRight style={{ width: 18, height: 18 }} />
           </button>

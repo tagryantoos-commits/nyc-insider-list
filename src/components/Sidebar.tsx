@@ -10,6 +10,9 @@ interface Props {
   activeBorough: string | null;
   onBoroughChange: (b: string | null) => void;
   boroughCounts: Record<string, number>;
+  neighborhoodCounts?: Record<string, number>;
+  activeNeighborhood?: string | null;
+  onNeighborhoodChange?: (n: string | null) => void;
   activeCategory: string | null;
   onCategoryChange: (c: string | null) => void;
   categoryCounts: Record<string, number>;
@@ -28,6 +31,9 @@ export default function Sidebar({
   activeBorough,
   onBoroughChange,
   boroughCounts,
+  neighborhoodCounts,
+  activeNeighborhood,
+  onNeighborhoodChange,
   activeCategory,
   onCategoryChange,
   categoryCounts,
@@ -47,6 +53,13 @@ export default function Sidebar({
     { value: "week", label: "This Week" },
     { value: "month", label: "This Month" },
   ];
+
+  // Top neighborhoods sorted by count
+  const topNeighborhoods = neighborhoodCounts
+    ? Object.entries(neighborhoodCounts)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 8)
+    : [];
 
   return (
     <aside
@@ -123,6 +136,35 @@ export default function Sidebar({
             );
           })}
         </div>
+
+        {/* Neighborhood filter - only when a borough is selected */}
+        {activeBorough && topNeighborhoods.length > 0 && (
+          <>
+            <div style={{ marginTop: 8 }}>
+              <select
+                value={activeNeighborhood ?? ""}
+                onChange={(e) => onNeighborhoodChange?.(e.target.value || null)}
+                className="w-full rounded-md border outline-none"
+                style={{
+                  fontSize: 12,
+                  height: 30,
+                  paddingLeft: 8,
+                  paddingRight: 8,
+                  background: "var(--bg-card)",
+                  borderColor: "var(--border)",
+                  color: activeNeighborhood ? "#fff" : "var(--text-muted)",
+                }}
+              >
+                <option value="">All neighborhoods</option>
+                {topNeighborhoods.map(([name, count]) => (
+                  <option key={name} value={name}>
+                    {name} ({count})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
 
         <div className="border-t" style={{ borderColor: "var(--border)", margin: "16px 0" }} />
 

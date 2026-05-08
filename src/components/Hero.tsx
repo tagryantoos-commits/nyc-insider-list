@@ -1,6 +1,18 @@
 "use client";
 
-export default function Hero({ eventCount }: { eventCount: number }) {
+import { Search } from "lucide-react";
+
+export default function Hero({
+  eventCount,
+  addedThisWeek,
+  searchQuery,
+  onSearchChange,
+}: {
+  eventCount: number;
+  addedThisWeek: number;
+  searchQuery: string;
+  onSearchChange: (q: string) => void;
+}) {
   return (
     <section
       className="relative flex flex-col items-center justify-center text-center overflow-hidden"
@@ -52,23 +64,24 @@ export default function Hero({ eventCount }: { eventCount: number }) {
       </h1>
 
       <div className="relative z-10 w-full max-w-[480px] mt-5 px-4">
+        <Search
+          className="absolute left-8 top-1/2 -translate-y-1/2"
+          style={{ color: "var(--text-muted)", width: 16, height: 16 }}
+        />
         <input
           type="text"
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search events, venues, neighborhoods..."
           className="w-full rounded-lg border outline-none transition focus:border-[rgba(255,255,255,0.15)]"
           style={{
             height: 40,
-            paddingLeft: 16,
+            paddingLeft: 40,
             paddingRight: 16,
             fontSize: 14,
             background: "var(--bg-input)",
             borderColor: "var(--border)",
             color: "var(--text)",
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.currentTarget.value.trim()) {
-              window.location.href = `/events?q=${encodeURIComponent(e.currentTarget.value.trim())}`;
-            }
           }}
         />
       </div>
@@ -82,7 +95,12 @@ export default function Hero({ eventCount }: { eventCount: number }) {
           letterSpacing: "0.02em",
         }}
       >
-        {eventCount} events &nbsp;&middot;&nbsp; 9 categories &nbsp;&middot;&nbsp; Updated weekly
+        {eventCount} events &nbsp;&middot;&nbsp; 10 categories &nbsp;&middot;&nbsp;
+        {addedThisWeek > 0 ? (
+          <span> {addedThisWeek} added this week</span>
+        ) : (
+          <span> Updated weekly</span>
+        )}
       </p>
     </section>
   );
