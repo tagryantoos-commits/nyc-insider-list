@@ -76,3 +76,49 @@ To mark events as featured, update the `is_featured` column in Supabase:
 ```sql
 UPDATE events SET is_featured = true WHERE title ILIKE '%Gov Ball%';
 ```
+
+## Session Log — 2026-05-12
+
+This was a massive multi-day build session covering the full NYC Insider List product from inception to production.
+
+### NYC Events Calendar (~/nyc-events-calendar)
+- Built scraper pipeline for 11 NYC event sources (TimeOut, Eventbrite, NYC Parks, Broadway, MLB API, MSG API, Barclays, Songkick, SummerStage, museums, festivals)
+- Created 9 per-category Google Calendars (Rooftop, Broadway, Sports, Concerts, Museums, Festivals, Free Events, Film, Other) under Ryan@TheAssumableGuy.com
+- Added 147 curated rooftop events (Pier 17, Marquee Skydeck, 230 Fifth, Azure Sundays, The DL, Starchild, Hotel Chantelle, HB, Highbar)
+- Built calendar sharing, cleanup, and migration scripts
+- Migrated all calendars from personal Gmail to work Workspace account
+
+### NYC Insider List Website (~/nyc-insider-list)
+- Built full Next.js 16 site deployed on Vercel at nycinsiderlist.com
+- Supabase backend (events, subscribers, calendar_actions, happy_hours tables)
+- Stripe Checkout integration ($2.99/mo subscription)
+- Multiple frontend redesigns: dark editorial theme, sidebar layout, date grouping, light/dark toggle
+- Event detail pages at /events/[id] with SEO metadata
+- Happy hours page with 2,565 NYC venues from Google Places API
+- Homepage with category carousels, tonight/weekend sections, search
+
+### Scrapers (weekly cron, 9 steps)
+- Rooftop events (Pier 17 + Edge via Playwright, 230 Fifth, Eventbrite)
+- Kid-friendly events (Eventbrite, NYC Parks, museums)
+- Museum events (12 museums + 12 recurring free nights)
+- Comedy events (The Stand, Eventbrite) + NYC - Comedy Google Calendar
+- Broadway shows (broadway.org, refreshed monthly)
+- Free events (recurring museum free nights + Eventbrite free)
+- Sports: all 9 NYC teams (Yankees, Mets, Knicks, Nets, Rangers, Islanders, Liberty, NYCFC, Red Bulls) via MLB API, ESPN API, NHL API
+- Concerts/Festivals (Songkick, SummerStage, Eventbrite)
+- Happy hour website enricher
+- Windows Task Scheduler: Sundays 11 PM ET
+
+### n8n Subscription Workflows
+- New Subscriber: Stripe webhook -> Google Calendar ACL grant (12 calendars) + welcome email
+- Cancellation: Stripe webhook -> revoke ACL + goodbye email
+- End-to-end tested: 32/32 passed (grant + revoke + email)
+
+### Tests
+- Sports scraper tests: 60/60 passed across 9 teams
+- Full subscription flow E2E test: 7/7 passed
+
+### Final Database Stats
+- 1,000+ events across 11 categories
+- 2,565 happy hour venues
+- 12 Google Calendars (Rooftop, Broadway, Sports, Concerts, Museums, Festivals, Free Events, Film, Other, Kid-Friendly, Comedy, + original NYC Events migrated)
