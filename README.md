@@ -122,3 +122,46 @@ This was a massive multi-day build session covering the full NYC Insider List pr
 - 1,000+ events across 11 categories
 - 2,565 happy hour venues
 - 12 Google Calendars (Rooftop, Broadway, Sports, Concerts, Museums, Festivals, Free Events, Film, Other, Kid-Friendly, Comedy, + original NYC Events migrated)
+
+## Session Log — 2026-05-03 to 2026-05-12
+
+### Frontend redesign (3 iterations)
+- **v1**: Clean database tool with light/dark toggle, sidebar + 3-column grid, Inter font
+- **v2**: Dark magazine layout inspired by NYC.com -- hero with CSS city skyline gradient, horizontal category carousels (Rooftop, Broadway, Concerts, Sports, etc.), gold accent pricing, dark premium aesthetic
+- **v3**: Entertainment magazine with "Happening TONIGHT" and "This WEEKEND" cross-category carousels at top, in-place hero search, carousel fade edges + visible arrows
+
+### Borough filtering
+- Added `borough` column to events table via Supabase migration
+- Classified all 794 events (Manhattan: 602, Bronx: 65, Brooklyn: 62, Queens: 62, Staten Island: 3) using venue/neighborhood keyword matching
+- Borough filter in sidebar (desktop) + horizontal tabs (mobile)
+- Updated API to support `?borough=` query parameter
+- Updated scraper pipeline (`upload_events.py`, `rooftop_events.py`) to auto-classify on insert
+
+### 12 UX improvements
+1. "Happening TONIGHT" / "This WEEKEND" sections on homepage
+2. Inline event detail expansion (click card to see description + Get Tickets)
+3. "LIVE" indicator with pulsing red dot on in-progress events
+4. Neighborhood filter (dropdown within selected borough)
+5. Carousel gradient fade edges + always-visible arrow buttons
+6. Save/bookmark events to localStorage (heart icon)
+7. Share button (copies event URL to clipboard with "Copied!" toast)
+8. Homepage search filters carousels in-place (no redirect)
+9. "X added this week" freshness counter in hero
+10. Date chip quick filters (Today, Tomorrow, Sat-Wed) + "All Events" reset
+11. Contextual empty state messages per category/filter
+12. Structured footer with Categories, Boroughs, Explore links
+
+### Paywall / conversion features
+- **Soft paywall**: Events 7+ days out blur venue/time/price, show gold lock icon
+- **Calendar preview**: Visual Google Calendar mockup populated with real events, color-coded by category
+- **Subscribe modal**: Inline overlay with value props, calendar preview, email input for Stripe checkout (no page redirect)
+- **Insider Picks**: Gold star "PICK" badge on featured events
+- **Subscriber count**: Real count from Supabase shown as "Join X+ subscribers" social proof
+- **7-day free trial** messaging throughout
+
+### Test suite
+- **176 tests across 3 suites, all passing**
+- Jest + React Testing Library + ts-jest + jsdom
+- Core tests (57): rendering, props, interactions for all components
+- Edge cases (60): null fields, sold-out detection, expand/collapse, clipboard API, form submission errors, paywall boundaries, sidebar state
+- Edge cases 2 (59): isHappeningNow time parsing (AM/PM/noon/midnight), Navbar states, MobileFilters interactions, hover styles, metadata formatting, price priority chain, CategoryCarousel guards
