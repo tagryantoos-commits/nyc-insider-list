@@ -20,6 +20,8 @@ export default function Navbar({
 
   const isEventsPage = pathname === "/events";
   const isHappyHoursPage = pathname === "/happy-hours";
+  const isPlanPage = pathname === "/plan-my-day";
+  const isSpontaneousPage = pathname === "/spontaneous";
 
   return (
     <nav
@@ -72,6 +74,30 @@ export default function Navbar({
             }}
           >
             Happy Hours
+          </Link>
+          <Link
+            href="/plan-my-day"
+            className="px-3 py-1.5 transition-colors"
+            style={{
+              fontSize: 13,
+              fontWeight: 500,
+              color: isPlanPage ? "#fff" : "var(--text-secondary)",
+              borderBottom: isPlanPage ? "2px solid var(--gold)" : "2px solid transparent",
+            }}
+          >
+            Plan My Day
+          </Link>
+          <Link
+            href="/spontaneous"
+            className="px-3 py-1.5 transition-colors"
+            style={{
+              fontSize: 13,
+              fontWeight: 500,
+              color: isSpontaneousPage ? "#fff" : "var(--text-secondary)",
+              borderBottom: isSpontaneousPage ? "2px solid var(--gold)" : "2px solid transparent",
+            }}
+          >
+            Spontaneous
           </Link>
         </div>
 
@@ -176,6 +202,20 @@ export default function Navbar({
               style={{ color: "var(--text)", fontSize: 14, fontWeight: 500 }}
             >
               Happy Hours
+            </Link>
+            <Link
+              href="/plan-my-day"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ color: "var(--text)", fontSize: 14, fontWeight: 500 }}
+            >
+              Plan My Day
+            </Link>
+            <Link
+              href="/spontaneous"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ color: "var(--text)", fontSize: 14, fontWeight: 500 }}
+            >
+              Spontaneous
             </Link>
             <Link
               href="/subscribe"

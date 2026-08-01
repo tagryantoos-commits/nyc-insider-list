@@ -55,6 +55,15 @@ html { scroll-behavior: smooth; }
   border-radius: 4px;
 }
 
+/* Small uppercase form-section labels (Plan My Day, Spontaneous) */
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
 /* Hide scrollbar for carousels */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

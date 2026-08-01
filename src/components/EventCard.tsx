@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getCategoryMeta } from "@/lib/constants";
 import type { Event } from "@/lib/types";
 import { format, parseISO, isToday } from "date-fns";
-import { Heart, Share2, ExternalLink, Lock, Star } from "lucide-react";
+import { Heart, Share2, ExternalLink, Lock, Star, CalendarPlus } from "lucide-react";
 
 function isHappeningNow(event: Event): boolean {
   if (!isToday(parseISO(event.date))) return false;
@@ -74,12 +74,15 @@ export default function EventCard({
 
   function handleShare(e: React.MouseEvent) {
     e.stopPropagation();
-    if (event.url) {
-      navigator.clipboard.writeText(event.url).then(() => {
-        setShowCopied(true);
-        setTimeout(() => setShowCopied(false), 1500);
-      });
+    const shareUrl = `${window.location.origin}/events/${event.id}`;
+    if (navigator.share) {
+      navigator.share({ title: event.title, url: shareUrl }).catch(() => {});
+      return;
     }
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 1500);
+    });
   }
 
   function handleSave(e: React.MouseEvent) {
@@ -279,6 +282,21 @@ export default function EventCard({
                 Tickets <ExternalLink style={{ width: 12, height: 12 }} />
               </a>
             )}
+            <a
+              href={`/api/event-ics/${event.id}`}
+              onClick={(e) => e.stopPropagation()}
+              title="Add to calendar"
+              className="inline-flex items-center gap-1.5 rounded-md border transition hover:opacity-80"
+              style={{
+                padding: "6px 14px",
+                fontSize: 12,
+                fontWeight: 500,
+                borderColor: "var(--border)",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <CalendarPlus style={{ width: 12, height: 12 }} /> Calendar
+            </a>
           </div>
         </div>
       )}

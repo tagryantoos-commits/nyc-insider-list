@@ -37,6 +37,10 @@ jest.mock("lucide-react", () => ({
   Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
   X: (props: Record<string, unknown>) => <svg data-testid="x-icon" {...props} />,
   Check: (props: Record<string, unknown>) => <svg data-testid="check-icon" {...props} />,
+  CalendarPlus: (props: Record<string, unknown>) => <svg data-testid="calendar-plus-icon" {...props} />,
+  Shuffle: (props: Record<string, unknown>) => <svg data-testid="shuffle-icon" {...props} />,
+  Dices: (props: Record<string, unknown>) => <svg data-testid="dices-icon" {...props} />,
+  ArrowLeft: (props: Record<string, unknown>) => <svg data-testid="arrow-left-icon" {...props} />,
   Clock: (props: Record<string, unknown>) => <svg data-testid="clock-icon" {...props} />,
   Search: (props: Record<string, unknown>) => <svg data-testid="search-icon" {...props} />,
   ChevronLeft: (props: Record<string, unknown>) => <svg data-testid="chevron-left" {...props} />,
@@ -215,20 +219,36 @@ describe("EventCard — share button", () => {
   let EventCard: typeof import("@/components/EventCard").default;
   beforeEach(async () => { EventCard = (await import("@/components/EventCard")).default; });
 
-  test("copies URL to clipboard on share click", async () => {
+  test("copies the event's site URL to clipboard on share click", async () => {
     const writeText = jest.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, { clipboard: { writeText } });
+    Object.assign(navigator, { clipboard: { writeText }, share: undefined });
 
     render(<EventCard event={todayEvent} />);
     const shareBtn = screen.getByTestId("share-icon").closest("button")!;
     await act(async () => { fireEvent.click(shareBtn); });
 
-    expect(writeText).toHaveBeenCalledWith("https://example.com/event");
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining(`/events/${todayEvent.id}`));
   });
 
-  test("shows 'Copied!' toast after share", async () => {
+  test("prefers the native share sheet when available", async () => {
+    const share = jest.fn().mockResolvedValue(undefined);
     const writeText = jest.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, { clipboard: { writeText } });
+    Object.assign(navigator, { clipboard: { writeText }, share });
+
+    render(<EventCard event={todayEvent} />);
+    const shareBtn = screen.getByTestId("share-icon").closest("button")!;
+    await act(async () => { fireEvent.click(shareBtn); });
+
+    expect(share).toHaveBeenCalledWith(
+      expect.objectContaining({ url: expect.stringContaining(`/events/${todayEvent.id}`) }),
+    );
+    expect(writeText).not.toHaveBeenCalled();
+    Object.assign(navigator, { share: undefined });
+  });
+
+  test("shows 'Copied!' toast after clipboard share", async () => {
+    const writeText = jest.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText }, share: undefined });
 
     render(<EventCard event={todayEvent} />);
     const shareBtn = screen.getByTestId("share-icon").closest("button")!;
@@ -237,16 +257,16 @@ describe("EventCard — share button", () => {
     expect(screen.getByText("Copied!")).toBeInTheDocument();
   });
 
-  test("does not attempt clipboard write when event has no URL", async () => {
+  test("shares the site event page even when event has no external URL", async () => {
     const writeText = jest.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, { clipboard: { writeText } });
+    Object.assign(navigator, { clipboard: { writeText }, share: undefined });
 
     const event = makeEvent({ id: "no-url-share", url: null });
     render(<EventCard event={event} />);
     const shareBtn = screen.getByTestId("share-icon").closest("button")!;
     await act(async () => { fireEvent.click(shareBtn); });
 
-    expect(writeText).not.toHaveBeenCalled();
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining("/events/no-url-share"));
   });
 });
 
