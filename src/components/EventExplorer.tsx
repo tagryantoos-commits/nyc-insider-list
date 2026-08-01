@@ -21,7 +21,10 @@ import DateGroup from "./DateGroup";
 import EventCard from "./EventCard";
 import SubscribeCTA from "./SubscribeCTA";
 import SubscribeModal from "./SubscribeModal";
+import TrialBanner from "./TrialBanner";
 import Footer from "./Footer";
+import { useAccess } from "@/hooks/useAccess";
+import { hasFullAccess } from "@/lib/access-tier";
 
 function parsePrice(cost: string | null): number {
   if (!cost) return 0;
@@ -88,16 +91,19 @@ export default function EventExplorer({
   const [activeDate, setActiveDate] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
+  const access = useAccess();
+  const unlocked = hasFullAccess(access.tier);
 
-  // Gated events: more than 7 days from now
+  // Gated events: more than 7 days from now — unless the visitor has a trial or subscription
   const gatedIds = useMemo(() => {
     const gateDate = addDays(startOfDay(new Date()), 7);
     const ids = new Set<string>();
+    if (unlocked) return ids;
     events.forEach((e) => {
       if (isAfter(parseISO(e.date), gateDate)) ids.add(e.id);
     });
     return ids;
-  }, [events]);
+  }, [events, unlocked]);
 
   // Insider picks: featured events
   const insiderPickIds = useMemo(() => {
@@ -293,6 +299,7 @@ export default function EventExplorer({
   return (
     <>
       <Navbar searchQuery={searchQuery} onSearchChange={setSearchQuery} showSearchBar />
+      <TrialBanner access={access} onUpgradeClick={() => setShowModal(true)} />
       <MobileFilters
         activeBorough={activeBorough}
         onBoroughChange={setActiveBorough}
@@ -441,6 +448,7 @@ export default function EventExplorer({
         events={events}
         gatedEventCount={gatedIds.size}
         subscriberCount={subscriberCount}
+        onUnlocked={access.refresh}
       />
     </>
   );

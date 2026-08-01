@@ -1,0 +1,513 @@
+11:38:00 [INFO] ============================================================
+11:38:00 [INFO] WEEKLY CRON START: 2026-08-01T11:38:00.281046
+11:38:00 [INFO] ============================================================
+11:38:00 [INFO] 
+--- Step 1: Rooftop Events ---
+11:38:02 [INFO] === ROOFTOP EVENTS SCRAPER ===
+11:38:02 [INFO]   Scraping Pier 17...
+11:38:08 [INFO]     Pier 17: 19 events
+11:38:08 [INFO]   Scraping Edge/Marquee...
+11:38:21 [INFO]     Edge: 31 events
+11:38:21 [INFO]   Scraping 230 Fifth...
+11:38:27 [INFO]     230 Fifth: 12 events
+11:38:27 [INFO]   Scraping Eventbrite rooftop events...
+11:38:38 [INFO]     Eventbrite: 40 events
+11:38:38 [INFO]   Total scraped: 102
+11:38:38 [INFO]     pier17: 19
+11:38:38 [INFO]     edge: 31
+11:38:38 [INFO]     230fifth: 12
+11:38:38 [INFO]     eventbrite: 40
+11:38:38 [INFO]   Dedup: removed 20 duplicates
+11:38:38 [INFO]   After dedup: 82
+11:38:38 [INFO]   Pushing to Google Calendar...
+11:38:39 [INFO] file_cache is only supported with oauth2client<4.0.0
+11:39:59 [INFO]   GCal: 82 created, 0 skipped, 0 errors
+11:39:59 [INFO]   Pushing to Supabase...
+11:40:00 [INFO] HTTP Request: GET https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?select=title%2Cdate&source=eq.manual_curated&category=eq.Rooftop "HTTP/2 200 OK"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 200 OK"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:01 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:02 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:03 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:04 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:05 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:05 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:05 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:05 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:40:05 [INFO]   Supabase: 82 upserted, 0 skipped (manual), 0 errors
+11:40:05 [INFO]   Cleaning up past events...
+11:40:05 [INFO] HTTP Request: DELETE https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?date=lt.2026-07-25&category=eq.Rooftop&source=like.rooftop_scraper_%25 "HTTP/2 200 OK"
+11:40:05 [INFO] file_cache is only supported with oauth2client<4.0.0
+11:41:18 [INFO]   Cleanup: 109 deactivated in Supabase, 100 deleted from GCal
+11:41:18 [INFO] === ROOFTOP SCRAPER COMPLETE ===
+11:41:18 [INFO]   Results: {"scraped": 102, "unique": 82, "sources": {"pier17": 19, "edge": 31, "230fifth": 12, "eventbrite": 40}, "gcal": {"created": 82, "skipped": 0, "errors": 0}, "supabase": {"upserted": 82, "skipped_manual": 0, "errors": 0}, "cleanup": {"deactivated": 109, "gcal_deleted": 100}}
+11:41:18 [INFO] 
+--- Step 2: Kid-Friendly Events ---
+11:41:18 [INFO] === KID-FRIENDLY EVENTS SCRAPER ===
+11:41:18 [INFO]   Scraping Mommy Poppins...
+11:41:39 [WARNING] Playwright failed: https://mommypoppins.com/new-york-city-kids/events: Page.goto: Timeout 20000ms exceeded.
+Call log:
+  - navigating to "https://mommypoppins.com/new-york-city-kids/events", waiting until "networkidle"
+
+11:42:01 [WARNING] Playwright failed: https://mommypoppins.com/new-york-city-kids/events/this-weekend: Page.goto: Timeout 20000ms exceeded.
+Call log:
+  - navigating to "https://mommypoppins.com/new-york-city-kids/events/this-weekend", waiting until "networkidle"
+
+11:42:01 [INFO]     Mommy Poppins: 0 events
+11:42:01 [INFO]   Scraping NYC Parks (kids)...
+11:42:04 [INFO]     NYC Parks: 90 events
+11:42:04 [INFO]   Scraping Eventbrite (kids/family)...
+11:42:12 [INFO]     Eventbrite kids: 35 events
+11:42:12 [INFO]   Scraping museum kids programs...
+11:42:36 [INFO]     Museums kids: 0 events
+11:42:36 [INFO]   Scraping parks programming...
+11:42:43 [INFO]     Parks: 0 events
+11:42:43 [INFO]   Total scraped: 125
+11:42:43 [INFO]     mommypoppins: 0
+11:42:43 [INFO]     nycparks: 90
+11:42:43 [INFO]     eventbrite: 35
+11:42:43 [INFO]     museums: 0
+11:42:43 [INFO]     parks: 0
+11:42:43 [INFO]   Dedup: removed 49 duplicates
+11:42:43 [INFO]   After dedup: 76
+11:42:43 [INFO]   Pushing to Google Calendar...
+11:42:43 [INFO] file_cache is only supported with oauth2client<4.0.0
+11:43:54 [INFO]   GCal: 76 created, 0 skipped, 0 errors
+11:43:54 [INFO]   Pushing to Supabase...
+11:43:55 [INFO] HTTP Request: GET https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?select=title%2Cdate&source=eq.manual_curated&category=eq.Kid-Friendly "HTTP/2 200 OK"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:55 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:56 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:57 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:43:58 [INFO]   Supabase: 76 upserted, 0 skipped, 0 errors
+11:43:58 [INFO] === KID-FRIENDLY SCRAPER COMPLETE ===
+11:43:58 [INFO] 
+--- Step 3: Museum Events ---
+11:43:58 [INFO] === MUSEUM EVENTS SCRAPER ===
+11:43:58 [INFO]   Scraping The Metropolitan Museum of Art...
+11:44:03 [INFO]   Scraping Whitney Museum...
+11:44:09 [INFO]   Scraping Guggenheim...
+11:44:22 [INFO]   Scraping American Museum of Natural History...
+11:44:28 [INFO]   Scraping Brooklyn Museum...
+11:44:34 [INFO]   Scraping New Museum...
+11:44:58 [WARNING] Playwright failed: https://www.newmuseum.org/exhibitions: Page.goto: Timeout 20000ms exceeded.
+Call log:
+  - navigating to "https://www.newmuseum.org/exhibitions", waiting until "networkidle"
+
+11:44:58 [INFO]   Scraping Museum of the City of New York...
+11:45:00 [INFO]   Scraping International Center of Photography...
+11:45:03 [INFO]   Scraping Museum of Arts and Design...
+11:45:09 [INFO]   Scraping The Morgan Library...
+11:45:30 [WARNING] Playwright failed: https://www.themorgan.org/exhibitions: Page.goto: Timeout 20000ms exceeded.
+Call log:
+  - navigating to "https://www.themorgan.org/exhibitions", waiting until "networkidle"
+
+11:45:30 [INFO]   Scraping New York Historical Society...
+11:45:33 [INFO]   Scraping Museum of the Moving Image...
+11:45:49 [INFO]   Scraped from websites: 79
+11:45:49 [INFO]   Generating recurring free museum nights...
+11:45:49 [INFO]     Recurring free nights: 136 events
+11:45:49 [INFO]   Total (scraped + recurring): 215
+11:45:49 [INFO]     met: 42
+11:45:49 [INFO]     whitney: 15
+11:45:49 [INFO]     guggenheim: 0
+11:45:49 [INFO]     amnh: 1
+11:45:49 [INFO]     brooklyn_museum: 0
+11:45:49 [INFO]     new_museum: 0
+11:45:49 [INFO]     mcny: 20
+11:45:49 [INFO]     icp: 1
+11:45:49 [INFO]     mad: 0
+11:45:49 [INFO]     morgan: 0
+11:45:49 [INFO]     nyhistory: 0
+11:45:49 [INFO]     momi: 0
+11:45:49 [INFO]     recurring: 136
+11:45:49 [INFO]   Dedup: removed 9 duplicates
+11:45:49 [INFO]   After dedup: 206
+11:45:49 [INFO]   Pushing to Google Calendar...
+11:45:49 [INFO] file_cache is only supported with oauth2client<4.0.0
+11:49:35 [INFO]   GCal: 202 created, 4 skipped, 0 errors
+11:49:35 [INFO]   Pushing to Supabase...
+11:49:35 [INFO] HTTP Request: GET https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?select=title%2Cdate&source=eq.manual_curated&category=eq.Museum "HTTP/2 200 OK"
+11:49:35 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:36 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:37 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:38 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:39 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:40 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 200 OK"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 200 OK"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:41 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:42 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 200 OK"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:43 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:44 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 200 OK"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:45 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO] HTTP Request: POST https://uxamwbqnsheridazkkvd.supabase.co/rest/v1/events?on_conflict=title%2Cdate%2Cvenue "HTTP/2 201 Created"
+11:49:46 [INFO]   Supabase: 206 upserted, 0 skipped, 0 errors
+11:49:46 [INFO] 
+  By event_type:
+11:49:46 [INFO]     free_night: 136
+11:49:46 [INFO]     exhibition: 62
+11:49:46 [INFO]     screening: 4
+11:49:46 [INFO]     family: 3
+11:49:46 [INFO]     performance: 1
+11:49:46 [INFO]   Free events: 136
+11:49:46 [INFO] === MUSEUM SCRAPER COMPLETE ===
+11:49:46 [INFO] 
+--- Step 4: Comedy Events ---
+11:49:46 [INFO] === COMEDY EVENTS SCRAPER ===
+11:49:46 [INFO]   Scraping Comedy Cellar...
+11:49:52 [INFO]   Scraping Gotham Comedy Club...
+11:49:54 [INFO]   Scraping The Stand NYC...
+11:50:09 [INFO]   Scraping Caroline's on Broadway...
+11:50:23 [INFO]   Scraping Caveat NYC...
+11:50:32 [INFO]   Scraping New York Comedy Club...
+11:50:39 [INFO]   Scraping Eventbrite comedy...
+11:50:51 [INFO]     Eventbrite comedy: 60 events
+11:50:51 [INFO]   Total scraped: 69
+11:50:51 [INFO]     comedy_cellar: 0
+11:50:51 [INFO]     gotham: 0
+11:50:51 [INFO]     the_stand: 9
+11:50:51 [INFO]     carolines: 0
+11:50:51 [INFO]     caveat: 0
+11:50:51 [INFO]     nycc: 0
+11:50:51 [INFO]     eventbrite: 60
+11:50:51 [INFO]   Dedup: removed 26 duplicates
+11:50:51 [INFO]   After dedup: 43
+11:50:51 [INFO]   Pushing to Google Calendar...
+11:50:51 [INFO] file_cache is only supported with oauth2client<4.0.0

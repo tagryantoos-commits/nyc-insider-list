@@ -33,6 +33,8 @@ jest.mock("lucide-react", () => ({
   Lock: (props: Record<string, unknown>) => <svg data-testid="lock-icon" {...props} />,
   Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
   X: (props: Record<string, unknown>) => <svg data-testid="x-icon" {...props} />,
+  Check: (props: Record<string, unknown>) => <svg data-testid="check-icon" {...props} />,
+  Clock: (props: Record<string, unknown>) => <svg data-testid="clock-icon" {...props} />,
   Search: (props: Record<string, unknown>) => <svg data-testid="search-icon" {...props} />,
   ChevronLeft: (props: Record<string, unknown>) => <svg data-testid="chevron-left" {...props} />,
   ChevronRight: (props: Record<string, unknown>) => <svg data-testid="chevron-right" {...props} />,
@@ -132,10 +134,9 @@ describe("EventCard", () => {
   });
 
   test("blurs metadata line when gated", () => {
-    render(<EventCard event={gatedEvent} isGated />);
-    // Find the metadata paragraph (contains the date/venue info)
-    const metaElements = screen.getAllByText(/May/);
-    const blurredMeta = metaElements.find(
+    const { container } = render(<EventCard event={gatedEvent} isGated />);
+    // The metadata paragraph (date/venue line) must be blurred, regardless of month
+    const blurredMeta = Array.from(container.querySelectorAll("p")).find(
       (el) => el.style.filter === "blur(4px)",
     );
     expect(blurredMeta).toBeTruthy();
@@ -253,15 +254,15 @@ describe("SubscribeModal", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
-    expect(screen.getByText("Unlock all 100+ events")).toBeInTheDocument();
+    expect(screen.getByText("Unlock all 100+ events — free")).toBeInTheDocument();
   });
 
   test("shows value propositions", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
-    expect(screen.getByText("10 category calendars")).toBeInTheDocument();
-    expect(screen.getByText("Auto-updated weekly")).toBeInTheDocument();
+    expect(screen.getByText("Every event, unlocked")).toBeInTheDocument();
+    expect(screen.getByText("Calendar sync for subscribers")).toBeInTheDocument();
     expect(screen.getByText("Insider Picks included")).toBeInTheDocument();
   });
 
@@ -276,22 +277,23 @@ describe("SubscribeModal", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} subscriberCount={0} />,
     );
-    expect(screen.queryByText(/subscribers/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Join \d+\+ subscribers/)).not.toBeInTheDocument();
   });
 
-  test("shows email input and subscribe button", () => {
+  test("shows email input, trial button, and checkout upsell", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
-    expect(screen.getByPlaceholderText("Your Google account email")).toBeInTheDocument();
-    expect(screen.getByText(/Subscribe.*\$2\.99/)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Your email address")).toBeInTheDocument();
+    expect(screen.getByText("Start free 10-day trial")).toBeInTheDocument();
+    expect(screen.getByText(/subscribe now.*\$2\.99/)).toBeInTheDocument();
   });
 
-  test("shows free trial messaging", () => {
+  test("shows no-card trial messaging", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
-    expect(screen.getByText(/7-day free trial/)).toBeInTheDocument();
+    expect(screen.getAllByText(/No credit card required/).length).toBeGreaterThan(0);
   });
 
   test("calls onClose when X button is clicked", () => {
@@ -380,12 +382,12 @@ describe("SubscribeCTA", () => {
 
   test("renders CTA heading", () => {
     render(<SubscribeCTA />);
-    expect(screen.getByText("Get every event in your calendar")).toBeInTheDocument();
+    expect(screen.getByText("Try everything free for 10 days")).toBeInTheDocument();
   });
 
-  test("shows subscribe button", () => {
+  test("shows trial button", () => {
     render(<SubscribeCTA />);
-    expect(screen.getByText("Subscribe $2.99/mo")).toBeInTheDocument();
+    expect(screen.getByText("Start free 10-day trial")).toBeInTheDocument();
   });
 
   test("shows subscriber count when provided", () => {
@@ -398,15 +400,15 @@ describe("SubscribeCTA", () => {
     expect(screen.queryByText(/subscribers/)).not.toBeInTheDocument();
   });
 
-  test("shows free trial text", () => {
+  test("shows no-card text", () => {
     render(<SubscribeCTA />);
-    expect(screen.getByText(/7-day free trial/)).toBeInTheDocument();
+    expect(screen.getByText(/No credit card required/)).toBeInTheDocument();
   });
 
   test("calls onSubscribeClick when button is clicked", () => {
     const onClick = jest.fn();
     render(<SubscribeCTA onSubscribeClick={onClick} />);
-    fireEvent.click(screen.getByText("Subscribe $2.99/mo"));
+    fireEvent.click(screen.getByText("Start free 10-day trial"));
     expect(onClick).toHaveBeenCalled();
   });
 });

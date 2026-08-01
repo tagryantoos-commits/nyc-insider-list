@@ -49,6 +49,8 @@ jest.mock("lucide-react", () => ({
   Lock: (props: Record<string, unknown>) => <svg data-testid="lock-icon" {...props} />,
   Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
   X: (props: Record<string, unknown>) => <svg data-testid="x-icon" {...props} />,
+  Check: (props: Record<string, unknown>) => <svg data-testid="check-icon" {...props} />,
+  Clock: (props: Record<string, unknown>) => <svg data-testid="clock-icon" {...props} />,
   Search: (props: Record<string, unknown>) => <svg data-testid="search-icon" {...props} />,
   ChevronLeft: (props: Record<string, unknown>) => <svg data-testid="chevron-left" {...props} />,
   ChevronRight: (props: Record<string, unknown>) => <svg data-testid="chevron-right" {...props} />,
@@ -240,18 +242,18 @@ describe("Navbar", () => {
     render(<Navbar />);
     const menuBtn = screen.getByLabelText("Menu");
     // Menu should be closed initially
-    expect(screen.queryByText("Subscribe $2.99/mo")).not.toBeInTheDocument();
+    expect(screen.queryByText("Start Free Trial")).not.toBeInTheDocument();
     // Open
     fireEvent.click(menuBtn);
-    expect(screen.getByText("Subscribe $2.99/mo")).toBeInTheDocument();
+    expect(screen.getByText("Start Free Trial")).toBeInTheDocument();
     // Close
     fireEvent.click(menuBtn);
-    expect(screen.queryByText("Subscribe $2.99/mo")).not.toBeInTheDocument();
+    expect(screen.queryByText("Start Free Trial")).not.toBeInTheDocument();
   });
 
-  test("subscribe link has gold color", () => {
+  test("trial link has gold color", () => {
     render(<Navbar />);
-    const subLinks = screen.getAllByText("Subscribe");
+    const subLinks = screen.getAllByText("Free Trial");
     const desktopSub = subLinks.find((el) => el.closest("a")?.getAttribute("href") === "/subscribe");
     expect(desktopSub?.closest("a")).toHaveStyle({ color: "var(--gold)" });
   });
@@ -696,17 +698,17 @@ describe("SubscribeModal — dynamic content", () => {
   let SubscribeModal: typeof import("@/components/SubscribeModal").default;
   beforeEach(async () => { SubscribeModal = (await import("@/components/SubscribeModal")).default; });
 
-  test("shows correct gated count in heading", () => {
+  test("shows generic heading when gated count is zero", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={0} />,
     );
-    expect(screen.getByText("Unlock all 0+ events")).toBeInTheDocument();
+    expect(screen.getByText("Unlock every NYC event — free")).toBeInTheDocument();
   });
 
   test("shows large gated count correctly", () => {
     render(
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={1500} />,
     );
-    expect(screen.getByText("Unlock all 1500+ events")).toBeInTheDocument();
+    expect(screen.getByText("Unlock all 1500+ events — free")).toBeInTheDocument();
   });
 });

@@ -26,6 +26,8 @@ export interface Subscriber {
   stripe_subscription_id: string | null;
   status: "active" | "inactive" | "canceled" | "past_due";
   google_calendar_granted: boolean;
+  trial_started_at: string | null;
+  trial_ends_at: string | null;
   created_at: string;
   updated_at: string;
 }

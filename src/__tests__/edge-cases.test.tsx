@@ -36,6 +36,8 @@ jest.mock("lucide-react", () => ({
   Lock: (props: Record<string, unknown>) => <svg data-testid="lock-icon" {...props} />,
   Star: (props: Record<string, unknown>) => <svg data-testid="star-icon" {...props} />,
   X: (props: Record<string, unknown>) => <svg data-testid="x-icon" {...props} />,
+  Check: (props: Record<string, unknown>) => <svg data-testid="check-icon" {...props} />,
+  Clock: (props: Record<string, unknown>) => <svg data-testid="clock-icon" {...props} />,
   Search: (props: Record<string, unknown>) => <svg data-testid="search-icon" {...props} />,
   ChevronLeft: (props: Record<string, unknown>) => <svg data-testid="chevron-left" {...props} />,
   ChevronRight: (props: Record<string, unknown>) => <svg data-testid="chevron-right" {...props} />,
@@ -345,7 +347,51 @@ describe("SubscribeModal — form submission", () => {
   let SubscribeModal: typeof import("@/components/SubscribeModal").default;
   beforeEach(async () => { SubscribeModal = (await import("@/components/SubscribeModal")).default; });
 
-  test("submits email to /api/checkout", async () => {
+  test("submits email to /api/trial/start", async () => {
+    const mockFetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ok: true, tier: "trial", startedNewTrial: true, trialDaysLeft: 10 }),
+    });
+    global.fetch = mockFetch;
+
+    render(
+      <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
+    );
+
+    const input = screen.getByPlaceholderText("Your email address");
+    fireEvent.change(input, { target: { value: "test@gmail.com" } });
+    const form = input.closest("form")!;
+
+    await act(async () => { fireEvent.submit(form); });
+
+    expect(mockFetch).toHaveBeenCalledWith("/api/trial/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "test@gmail.com" }),
+    });
+  });
+
+  test("shows success state and fires onUnlocked when trial starts", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ok: true, tier: "trial", startedNewTrial: true, trialDaysLeft: 10 }),
+    });
+    const onUnlocked = jest.fn();
+
+    render(
+      <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} onUnlocked={onUnlocked} />,
+    );
+
+    const input = screen.getByPlaceholderText("Your email address");
+    fireEvent.change(input, { target: { value: "test@gmail.com" } });
+
+    await act(async () => { fireEvent.submit(input.closest("form")!); });
+
+    expect(screen.getByText("You're in!")).toBeInTheDocument();
+    expect(onUnlocked).toHaveBeenCalled();
+  });
+
+  test("sends checkout when upsell button clicked", async () => {
     const mockFetch = jest.fn().mockResolvedValue({
       json: () => Promise.resolve({ url: "https://checkout.stripe.com/session" }),
     });
@@ -355,21 +401,19 @@ describe("SubscribeModal — form submission", () => {
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
 
-    const input = screen.getByPlaceholderText("Your Google account email");
+    const input = screen.getByPlaceholderText("Your email address");
     fireEvent.change(input, { target: { value: "test@gmail.com" } });
-    const form = input.closest("form")!;
 
-    await act(async () => { fireEvent.submit(form); });
-
-    expect(mockFetch).toHaveBeenCalledWith("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: "test@gmail.com" }),
+    await act(async () => {
+      fireEvent.click(screen.getByText(/subscribe now.*\$2\.99/));
     });
+
+    expect(mockFetch).toHaveBeenCalledWith("/api/checkout", expect.objectContaining({ method: "POST" }));
   });
 
   test("shows error when API returns error", async () => {
     global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
       json: () => Promise.resolve({ error: "Invalid email" }),
     });
 
@@ -377,11 +421,11 @@ describe("SubscribeModal — form submission", () => {
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
 
-    const input = screen.getByPlaceholderText("Your Google account email");
+    const input = screen.getByPlaceholderText("Your email address");
     fireEvent.change(input, { target: { value: "bad@email.com" } });
 
     await act(async () => {
-      fireEvent.click(screen.getByText(/Subscribe.*\$2\.99/));
+      fireEvent.submit(input.closest("form")!);
     });
 
     expect(screen.getByText("Invalid email")).toBeInTheDocument();
@@ -394,11 +438,11 @@ describe("SubscribeModal — form submission", () => {
       <SubscribeModal isOpen onClose={jest.fn()} events={allTestEvents} gatedEventCount={100} />,
     );
 
-    const input = screen.getByPlaceholderText("Your Google account email");
+    const input = screen.getByPlaceholderText("Your email address");
     fireEvent.change(input, { target: { value: "test@gmail.com" } });
 
     await act(async () => {
-      fireEvent.click(screen.getByText(/Subscribe.*\$2\.99/));
+      fireEvent.submit(input.closest("form")!);
     });
 
     expect(screen.getByText("Network error. Please try again.")).toBeInTheDocument();
@@ -410,7 +454,7 @@ describe("SubscribeModal — form submission", () => {
       <SubscribeModal isOpen onClose={onClose} events={allTestEvents} gatedEventCount={100} />,
     );
 
-    fireEvent.click(screen.getByText("10 category calendars"));
+    fireEvent.click(screen.getByText("Every event, unlocked"));
     expect(onClose).not.toHaveBeenCalled();
   });
 });
@@ -498,16 +542,16 @@ describe("SubscribeCTA — edge cases", () => {
 
   test("renders as link when no onSubscribeClick provided", () => {
     render(<SubscribeCTA />);
-    const link = screen.getByText("Subscribe $2.99/mo").closest("a");
+    const link = screen.getByText("Start free 10-day trial").closest("a");
     expect(link).toHaveAttribute("href", "/subscribe");
   });
 
   test("renders as button when onSubscribeClick provided", () => {
     render(<SubscribeCTA onSubscribeClick={jest.fn()} />);
-    const btn = screen.getByText("Subscribe $2.99/mo").closest("button");
+    const btn = screen.getByText("Start free 10-day trial").closest("button");
     expect(btn).toBeInTheDocument();
     // Should NOT be a link
-    const link = screen.getByText("Subscribe $2.99/mo").closest("a");
+    const link = screen.getByText("Start free 10-day trial").closest("a");
     expect(link).toBeNull();
   });
 });

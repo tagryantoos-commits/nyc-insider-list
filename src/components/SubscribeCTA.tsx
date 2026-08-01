@@ -19,7 +19,7 @@ export default function SubscribeCTA({
       }}
     >
       <h2 style={{ fontSize: 24, fontWeight: 700, color: "#fff" }}>
-        Get every event in your calendar
+        Try everything free for 10 days
       </h2>
       <p
         style={{
@@ -31,7 +31,7 @@ export default function SubscribeCTA({
           marginRight: "auto",
         }}
       >
-        Subscribe for $2.99/month. 10 category calendars auto-sync to Google Calendar. Cancel anytime.
+        Every event unlocked, no credit card required. Then $2.99/month for full access plus 10 auto-syncing Google Calendars.
       </p>
 
       {subscriberCount > 0 && (
@@ -54,7 +54,7 @@ export default function SubscribeCTA({
             fontWeight: 700,
           }}
         >
-          Subscribe $2.99/mo
+          Start free 10-day trial
         </button>
       ) : (
         <Link
@@ -70,12 +70,12 @@ export default function SubscribeCTA({
             fontWeight: 700,
           }}
         >
-          Subscribe $2.99/mo
+          Start free 10-day trial
         </Link>
       )}
 
       <p style={{ marginTop: 12, fontSize: 12, color: "var(--text-muted)" }}>
-        7-day free trial. Cancel anytime.
+        No credit card required. Cancel anytime.
       </p>
     </section>
   );

@@ -65,3 +65,15 @@ ALTER TABLE calendar_actions ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Service role manages calendar_actions" ON calendar_actions
   FOR ALL USING (auth.role() = 'service_role');
+
+-- ============================================================
+-- 2026-08-01: Instant 10-day no-card trial
+-- Access tier is computed at request time (see src/lib/access-tier.ts):
+--   subscriber (status='active') > trial (trial_ends_at > now) > free
+-- trial_started_at is set exactly once per email, ever.
+-- ============================================================
+ALTER TABLE subscribers
+  ADD COLUMN IF NOT EXISTS trial_started_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS trial_ends_at TIMESTAMPTZ;
+
+CREATE INDEX IF NOT EXISTS idx_subscribers_email ON subscribers(email);

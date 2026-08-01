@@ -10,7 +10,10 @@ import CategoryCarousel from "./CategoryCarousel";
 import HappyHourCarousel from "./HappyHourCarousel";
 import SubscribeCTA from "./SubscribeCTA";
 import SubscribeModal from "./SubscribeModal";
+import TrialBanner from "./TrialBanner";
 import Footer from "./Footer";
+import { useAccess } from "@/hooks/useAccess";
+import { hasFullAccess } from "@/lib/access-tier";
 
 // Determine which events are "Insider Picks" - top featured or high-value events per category
 function computeInsiderPicks(events: Event[]): Set<string> {
@@ -36,6 +39,8 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
   const weekEnd = addDays(now, 7);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const access = useAccess();
+  const unlocked = hasFullAccess(access.tier);
 
   const futureEvents = useMemo(
     () => events.filter((e) => !isBefore(parseISO(e.date), now)),
@@ -50,15 +55,16 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
     }).length;
   }, [events, now]);
 
-  // Gated events: more than 7 days from now
+  // Gated events: more than 7 days from now — unless the visitor has a trial or subscription
   const gateDate = addDays(now, 7);
   const gatedIds = useMemo(() => {
     const ids = new Set<string>();
+    if (unlocked) return ids;
     futureEvents.forEach((e) => {
       if (isAfter(parseISO(e.date), gateDate)) ids.add(e.id);
     });
     return ids;
-  }, [futureEvents, gateDate]);
+  }, [futureEvents, gateDate, unlocked]);
 
   const gatedCount = gatedIds.size;
 
@@ -120,6 +126,7 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
   return (
     <>
       <Navbar />
+      <TrialBanner access={access} onUpgradeClick={() => setShowModal(true)} />
       <Hero
         eventCount={futureEvents.length}
         addedThisWeek={addedThisWeek}
@@ -255,6 +262,7 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
         events={futureEvents}
         gatedEventCount={gatedCount}
         subscriberCount={subscriberCount}
+        onUnlocked={access.refresh}
       />
     </>
   );

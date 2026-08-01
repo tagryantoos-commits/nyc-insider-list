@@ -134,7 +134,7 @@ export default function Navbar({
             fontWeight: 600,
           }}
         >
-          Subscribe
+          Free Trial
         </Link>
 
         {/* Mobile hamburger */}
@@ -182,7 +182,7 @@ export default function Navbar({
               onClick={() => setMobileMenuOpen(false)}
               style={{ color: "var(--gold)", fontSize: 14, fontWeight: 600 }}
             >
-              Subscribe $2.99/mo
+              Start Free Trial
             </Link>
           </div>
         </div>
