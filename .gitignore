@@ -45,3 +45,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Python scraper artifacts
+scrapers/__pycache__/
+data/weekly_cron.log
+data/last_cron_status.json
+data/cron_status.json
