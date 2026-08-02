@@ -44,6 +44,12 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
   const access = useAccess();
   const unlocked = hasFullAccess(access.tier);
 
+  // Date math depends on the visitor's local "now", which differs from the
+  // build-time value baked into the prerendered HTML. Gate date-derived UI
+  // on mount so server and first client render agree (avoids hydration errors).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const futureEvents = useMemo(
     () => events.filter((e) => !isBefore(parseISO(e.date), now)),
     [events, now],
@@ -148,13 +154,22 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
       <TrialBanner access={access} onUpgradeClick={() => setShowModal(true)} />
       <Hero
         eventCount={futureEvents.length}
-        addedThisWeek={addedThisWeek}
+        addedThisWeek={mounted ? addedThisWeek : 0}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
 
       <div className="mx-auto max-w-[1200px] py-8">
-        {filteredSections ? (
+        {!mounted ? (
+          <div className="px-4 lg:px-0">
+            <div className="skeleton-pulse" style={{ width: 220, height: 44, borderRadius: 6 }} />
+            <div className="mt-6 flex flex-col gap-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="skeleton-pulse" style={{ height: 56, borderRadius: 8 }} />
+              ))}
+            </div>
+          </div>
+        ) : filteredSections ? (
           <section className="mb-10">
             <div className="flex items-center justify-between mb-4 px-4 lg:px-0">
               <h2 style={{ fontSize: 20, fontWeight: 600 }}>
