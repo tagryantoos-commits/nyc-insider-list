@@ -73,18 +73,20 @@ export default function EventExplorer({
   events,
   initialCategory,
   initialSearch,
+  initialFreeOnly = false,
   subscriberCount = 0,
 }: {
   events: Event[];
   initialCategory?: string | null;
   initialSearch?: string;
+  initialFreeOnly?: boolean;
   subscriberCount?: number;
 }) {
   const [searchQuery, setSearchQuery] = useState(initialSearch ?? "");
   const [activeBorough, setActiveBorough] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(initialCategory ?? null);
   const [activeNeighborhood, setActiveNeighborhood] = useState<string | null>(null);
-  const [freeOnly, setFreeOnly] = useState(false);
+  const [freeOnly, setFreeOnly] = useState(initialFreeOnly);
   const [hideSoldOut, setHideSoldOut] = useState(false);
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
   const [sortMode, setSortMode] = useState<SortMode>("date");

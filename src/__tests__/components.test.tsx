@@ -340,7 +340,7 @@ describe("Hero", () => {
 
   test("renders title", () => {
     render(<Hero eventCount={500} addedThisWeek={20} searchQuery="" onSearchChange={jest.fn()} />);
-    expect(screen.getByText("New York's Insider Guide")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toMatch(/what's the move/i);
   });
 
   test("shows event count with locale formatting", () => {
@@ -354,9 +354,10 @@ describe("Hero", () => {
     expect(screen.getByText(/42 added this week/)).toBeInTheDocument();
   });
 
-  test("shows 'Updated weekly' when addedThisWeek is 0", () => {
+  test("omits 'added this week' when addedThisWeek is 0", () => {
     render(<Hero eventCount={500} addedThisWeek={0} searchQuery="" onSearchChange={jest.fn()} />);
-    expect(screen.getByText(/Updated weekly/)).toBeInTheDocument();
+    expect(screen.queryByText(/added this week/)).not.toBeInTheDocument();
+    expect(screen.getByText(/500 events on the list/)).toBeInTheDocument();
   });
 
   test("renders search input with value", () => {

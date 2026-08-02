@@ -2,10 +2,12 @@
 
 import type { Event } from "@/lib/types";
 import { HOMEPAGE_SECTIONS, getCategoryMeta } from "@/lib/constants";
-import { parseISO, isBefore, isAfter, startOfDay, endOfDay, addDays, isToday, format } from "date-fns";
-import { useMemo, useState } from "react";
+import { parseISO, isBefore, isAfter, startOfDay, endOfDay, addDays, format } from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Search } from "lucide-react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
+import ThisWeekList from "./ThisWeekList";
 import CategoryCarousel from "./CategoryCarousel";
 import HappyHourCarousel from "./HappyHourCarousel";
 import SubscribeCTA from "./SubscribeCTA";
@@ -71,10 +73,27 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
   // Insider picks
   const insiderPickIds = useMemo(() => computeInsiderPicks(futureEvents), [futureEvents]);
 
-  const tonightEvents = useMemo(
-    () => futureEvents.filter((e) => isToday(parseISO(e.date)))
-      .sort((a, b) => a.date.localeCompare(b.date)),
-    [futureEvents],
+  // Saved events (localStorage, shared key with the events explorer)
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("nyc-saved-events");
+      if (saved) setSavedIds(new Set(JSON.parse(saved)));
+    } catch {}
+  }, []);
+  const toggleSave = useCallback((id: string) => {
+    setSavedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      localStorage.setItem("nyc-saved-events", JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+
+  const thisWeekEvents = useMemo(
+    () => futureEvents.filter((e) => !isAfter(parseISO(e.date), weekEnd)),
+    [futureEvents, weekEnd],
   );
 
   const weekendEvents = useMemo(() => {
@@ -192,30 +211,32 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
           </section>
         ) : (
           <>
-            {tonightEvents.length > 0 && (
-              <CategoryCarousel
-                prefix="Happening"
-                label="TONIGHT"
-                categoryKey=""
-                events={tonightEvents.slice(0, 15)}
-                viewAllHref="/events"
+            {/* Dice-style day-grouped list — the primary browse surface */}
+            <div id="this-week" style={{ scrollMarginTop: 70 }}>
+              <ThisWeekList
+                events={thisWeekEvents}
                 gatedIds={gatedIds}
-                insiderPickIds={insiderPickIds}
+                savedIds={savedIds}
+                onToggleSave={toggleSave}
                 onGatedClick={() => setShowModal(true)}
               />
-            )}
+            </div>
+
+            <div className="mt-12" />
 
             {weekendEvents.length > 0 && (
-              <CategoryCarousel
-                prefix="This"
-                label="WEEKEND"
-                categoryKey=""
-                events={weekendEvents}
-                viewAllHref="/events"
-                gatedIds={gatedIds}
-                insiderPickIds={insiderPickIds}
-                onGatedClick={() => setShowModal(true)}
-              />
+              <div id="weekend" style={{ scrollMarginTop: 70 }}>
+                <CategoryCarousel
+                  prefix="This"
+                  label="WEEKEND"
+                  categoryKey=""
+                  events={weekendEvents}
+                  viewAllHref="/events"
+                  gatedIds={gatedIds}
+                  insiderPickIds={insiderPickIds}
+                  onGatedClick={() => setShowModal(true)}
+                />
+              </div>
             )}
 
             {sections.slice(0, 3).map((section) => (
@@ -255,6 +276,27 @@ export default function MagazineHome({ events, subscriberCount = 0 }: { events: 
 
       <SubscribeCTA subscriberCount={subscriberCount} onSubscribeClick={() => setShowModal(true)} />
       <Footer />
+
+      {/* Floating search — thumb-reach on mobile (Dice-style) */}
+      <button
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => document.getElementById("hero-search")?.focus(), 450);
+        }}
+        aria-label="Search events"
+        className="sm:hidden fixed z-40 flex items-center justify-center rounded-full transition active:scale-95"
+        style={{
+          bottom: 20,
+          right: 20,
+          width: 52,
+          height: 52,
+          background: "#fff",
+          color: "#0a0a0f",
+          boxShadow: "0 8px 28px rgba(0,0,0,0.55)",
+        }}
+      >
+        <Search style={{ width: 20, height: 20 }} />
+      </button>
 
       <SubscribeModal
         isOpen={showModal}

@@ -55,6 +55,14 @@ html { scroll-behavior: smooth; }
   border-radius: 4px;
 }
 
+/* Condensed display type for headlines — the poster voice */
+.display {
+  font-family: var(--font-display), Impact, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+}
+
 /* Small uppercase form-section labels (Plan My Day, Spontaneous) */
 .section-label {
   font-size: 11px;

@@ -37,7 +37,7 @@ async function getSubscriberCount(): Promise<number> {
 export default async function EventsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; q?: string; borough?: string }>;
+  searchParams: Promise<{ category?: string; q?: string; borough?: string; free?: string }>;
 }) {
   const [events, subscriberCount, params] = await Promise.all([
     getEvents(),
@@ -50,6 +50,7 @@ export default async function EventsPage({
       events={events}
       initialCategory={params.category ?? null}
       initialSearch={params.q ?? ""}
+      initialFreeOnly={params.free === "1"}
       subscriberCount={subscriberCount}
     />
   );

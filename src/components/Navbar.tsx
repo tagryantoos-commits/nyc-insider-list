@@ -76,6 +76,18 @@ export default function Navbar({
             Happy Hours
           </Link>
           <Link
+            href="/events?free=1"
+            className="px-3 py-1.5 transition-colors"
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: "var(--free)",
+              borderBottom: "2px solid transparent",
+            }}
+          >
+            Free
+          </Link>
+          <Link
             href="/plan-my-day"
             className="px-3 py-1.5 transition-colors"
             style={{
@@ -202,6 +214,13 @@ export default function Navbar({
               style={{ color: "var(--text)", fontSize: 14, fontWeight: 500 }}
             >
               Happy Hours
+            </Link>
+            <Link
+              href="/events?free=1"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ color: "var(--free)", fontSize: 14, fontWeight: 600 }}
+            >
+              Free This Week
             </Link>
             <Link
               href="/plan-my-day"
