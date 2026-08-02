@@ -177,6 +177,15 @@ def run_weekly(rooftop_only=False):
         logger.error(f"External scrapers failed: {e}", exc_info=True)
         results["external"] = {"error": str(e)}
 
+    # 7c. Music depth (Bandsintown NYC — concerts beyond Songkick)
+    try:
+        logger.info("\n--- Step 7c: Music Depth (Bandsintown) ---")
+        from music_events import scrape_all_music_events
+        results["music"] = scrape_all_music_events()
+    except Exception as e:
+        logger.error(f"Music scraper failed: {e}", exc_info=True)
+        results["music"] = {"error": str(e)}
+
     # 8. Happy hour enricher
     try:
         logger.info("\n--- Step 8: Happy Hour Enricher ---")
