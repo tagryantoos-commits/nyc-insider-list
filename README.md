@@ -77,6 +77,50 @@ To mark events as featured, update the `is_featured` column in Supabase:
 UPDATE events SET is_featured = true WHERE title ILIKE '%Gov Ball%';
 ```
 
+## Session Log — 2026-08-02
+
+Revival + growth session after ~3 months dormant. Everything below is live on
+**nyc-insider-list.vercel.app** (custom domain still resolving — see DNS note).
+
+### Data resurrection
+- **Fixed the "NYC Weekly Cron" scheduled task** (dead since May): it ran `bash run_weekly_cron.sh` with no working directory → exit 127 every Sunday, silently. Now uses an absolute script path + `WorkingDirectory`; verified it starts and scrapes.
+- Hardened `run_weekly_cron.sh`: unconditional logging + `data/last_cron_status.json` status marker so a dead run is visible.
+- Ran the full pipeline; database went from ~49 → **820 upcoming events across 10 categories** + 2,565 happy hours.
+
+### Accounts + instant 10-day no-card trial (replaces the old "just Stripe" model)
+- `src/lib/session.ts` — HMAC-signed cookie sessions (no auth provider, no verification emails). `SESSION_SECRET` env.
+- `src/lib/access-tier.ts` — tiers computed never stored: `subscriber` > `trial` > `free`. `src/lib/trial.ts` — email + disposable-domain validation.
+- `POST /api/trial/start` (one trial per email ever, honeypot), `GET /api/me`, `POST /api/auth/logout`.
+- `subscribers` table extended: `trial_started_at`, `trial_ends_at`.
+- Paywall now unlocks for trial/paid via `useAccess` hook; `TrialBanner` shows days left / expired. All CTAs → "Start free 10-day trial — no credit card"; Stripe $2.99/mo is the trial-expiry conversion path.
+
+### Feature ports (re-implemented fresh, zero shared code with happenin-cos)
+- **Plan My Day** (`/plan-my-day`) — mood/duration/group → time-blocked itinerary from real events + the 2,565-venue happy-hour table + NYC fallbacks; NWS weather-aware; deterministic seed = shareable URLs. Engine: `src/lib/plan-my-day.ts`.
+- **I'm Feeling Spontaneous** (`/spontaneous`) — one-tap queue of things in the next few hours, shuffle die. `GET /api/spontaneous`.
+- **Shareable plans + RSVP** — `shared_plans` + `plan_rsvps` tables, `POST /api/plans`, public `/p/[slug]` with name-only RSVP + trial CTA (viral loop).
+- **One-tap add-to-calendar** — `src/lib/ics.ts` (RFC 5545, America/New_York VTIMEZONE), `GET /api/event-ics/[id]`, Google Calendar template URLs; buttons on cards/plans/detail.
+
+### Dice-inspired UX overhaul
+- `ThisWeekList` (day-pill nav + date-grouped rows), `EventListRow` (compact scannable rows), `FeaturedCard` (full-bleed gradient cards).
+- `Hero` rebuilt around the brief's four questions: Tonight / This Weekend / Free This Week / Drinks first, plus Plan My Day + Spontaneous.
+- Oswald condensed display font; near-black theme; Free is a first-class nav item; floating mobile search; event detail shows nearby happy hours ("drinks first").
+- Fixed a homepage hydration mismatch (build-time vs client date math) with a mount guard.
+
+### SEO + product brief
+- `PRODUCT_BRIEF.md` added to repo root; `CLAUDE.md` points all product decisions at it.
+- schema.org `Event` JSON-LD on event pages, `sitemap.ts` (static + per-event long tail), `robots.ts`.
+
+### Music depth
+- `scrapers/music_events.py` — Bandsintown NYC via Playwright (bypasses its 403), parses event cards for the full future range; borough-classified, deduped, upserted as Concerts. Wired into `weekly_cron.py` step 7c. Gives the Concert category a second independent source alongside Songkick. Jazz-venue sub-scrapers stubbed (no JSON-LD even when rendered).
+
+### Tests / build
+- **236 Jest tests passing** (added access-tier/session/email, ICS builder, plan engine, slug+RSVP, EventListRow suites). Clean production build.
+
+### DNS (Namecheap) — root cause + fix
+- The domain wasn't a DNS misconfig — it was **suspended for unverified WHOIS registrant email** (nameservers were `failed-whois-verification.namecheap.com`). Ryan completed the registrant-email verification 2026-08-02. Authoritative DNS has since reverted to normal Namecheap nameservers and the A record already points at Vercel (`76.76.21.21`); waiting on Vercel's automatic SSL cert issuance. `NEXT_PUBLIC_SITE_URL` on Vercel points at the vercel.app URL until the cert lands.
+
+---
+
 ## Session Log — 2026-05-12
 
 This was a massive multi-day build session covering the full NYC Insider List product from inception to production.
